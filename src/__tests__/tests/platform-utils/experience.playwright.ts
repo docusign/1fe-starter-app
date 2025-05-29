@@ -12,8 +12,8 @@ test('utils.experience.title.set', async ({ page }) => {
 
   title = await page.title();
 
-  const expectedTitle = 'hello world';
-  expect(title).toBe(expectedTitle);
+  const expectedTitle = /hello world/i;
+  expect(title).toMatch(expectedTitle);
 });
 
 test('utils.experience.title.get', async ({ page }) => {

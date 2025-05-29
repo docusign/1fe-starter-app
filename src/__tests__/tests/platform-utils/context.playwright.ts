@@ -6,15 +6,12 @@ test('Context functions in @internal/generic-child-widget', async ({
   // Navigate to the app
   await page.goto('http://localhost:3001/app1/utils');
 
-  await page.click('button[data-qa="utils.context.get.btn"]');
+  const resultElement = page.getByTestId('wsk.context.result.container');
 
-  const resultElement = page.locator(
-    'div[data-qa="wsk.context.result.container"]',
-  );
+  await expect(resultElement).toHaveText('');
 
-  await expect(await resultElement).toHaveText('');
+  await page.getByTestId('utils.context.self.btn').click();
 
-  await page.click('button[data-qa="utils.context.self.btn"]');
   await page.waitForTimeout(100);
 
   const selfContent = JSON.parse((await resultElement.textContent()) || '{}');

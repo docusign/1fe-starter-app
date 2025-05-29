@@ -15,11 +15,13 @@
     "server:build": "tsc --project tsconfig.server.json --noEmit && node bundle/server/build.js",
     "build": "yarn clean && yarn server:build && yarn client:build",
     "test:playwright": "playwright test",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@es-exec/esbuild-plugin-start": "^0.0.5",
+    "@playwright/test": "^1.51.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@types/ejs": "^3.1.5",
     "@types/express": "^4.17.13",
@@ -46,7 +48,6 @@
     "http-proxy-middleware": "^2.0.1",
     "lint-staged": "^13.3.0",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.51.1",
     "prettier": "^3.5.3",
     "progress-bar-webpack-plugin": "^2.1.0",
     "style-loader": "^4.0.0",
@@ -64,8 +65,8 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "@1fe/server": "workspace:*",
-    "@1fe/shell": "workspace:*",
+    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server",
+    "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "11.14.0",
     "core-js": "^3.40.0",
@@ -79,7 +80,8 @@
     "react-refresh": "^0.16.0",
     "react-router-dom": "6.30.0",
     "serve-favicon": "^2.5.0",
-    "systemjs": "^6.15.1"
+    "systemjs": "^6.15.1",
+    "zod": "^3.25.36"
   },
   "browserslist": [
     "ios >= 13",
@@ -110,5 +112,6 @@
     "not dead",
     "not ie > 0",
     "not edge < 19"
-  ]
+  ],
+  "packageManager": "yarn@4.9.1"
 }

@@ -1,4 +1,4 @@
-# File: docusign/1fe-widget-starter-kit/.github/workflows/widget-ci.yml
+# File: docusign/1fe-widget-starter-kit/.github/workflows/widget-ci.yml.
 name: Widget Starter Kit CI
 
 on:

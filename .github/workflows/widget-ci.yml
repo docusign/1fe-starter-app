@@ -1,0 +1,30 @@
+# File: docusign/1fe-widget-starter-kit/.github/workflows/widget-ci.yml
+name: Widget Starter Kit CI
+
+on:
+  push:
+    branches:
+      - main # Or your primary development branch
+  pull_request:
+    branches:
+      - main # Or your primary development branch
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+    inputs:
+      node_version_override:
+        description: 'Override Node.js version for this run (e.g., 20)'
+        required: false
+        type: string
+
+jobs:
+  run_minimal_ci:
+    name: Run Minimal CI
+    # This line calls the reusable workflow from your 1fe-ci-cd repository.
+    # It's crucial to use a specific tag or commit SHA for stability in production.
+    # For testing, you can use @main, but update it before relying on it heavily.
+    uses: docusign/1fe-ci-cd/.github/workflows/ci-widgets.yml@main # Replace @main with e.g. @v1.0.0 when ready
+
+    with:
+      node-version: ${{ github.event.inputs.node_version_override || '18' }}
+    secrets:
+      PRIVATE_KEY_FOR_1FE: ${{ secrets.FETCH_1FE_PRIVATE_KEY }}
+      PRIVATE_KEY_FOR_WIDGET_BASE_CONFIG: ${{ secrets.FETCH_WIDGET_BASE_CONFIG_PRIVATE_KEY }}

@@ -44,23 +44,27 @@ const options = {
   },
 };
 
-const app = oneFEServer(options);
+async function startServer() {
+  const app = await oneFEServer(options);
 
-// Middleware that parses json and looks at requests where the Content-Type header matches the type option.
-app.use(express.json());
+  // Middleware that parses json and looks at requests where the Content-Type header matches the type option.
+  app.use(express.json());
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
-// Serve API requests from the router
-app.use('/api', router);
+  // Serve API requests from the router
+  app.use('/api', router);
 
-app.use(errorMiddleware);
+  app.use(errorMiddleware);
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
+  // Set EJS as the view engine
+  app.set('view engine', 'ejs');
 
-app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server listening at http://localhost:${PORT}`);
+  });
+}
+
+startServer();

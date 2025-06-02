@@ -2,6 +2,7 @@
   "name": "@1fe/starter-app",
   "version": "0.0.0",
   "private": true,
+  "types": "dist/shell/index.d.ts",
   "scripts": {
     "clean": "npx rimraf dist",
     "dev": "run-s client:dev server:dev",
@@ -13,7 +14,7 @@
     "client-types:extract": "yarn client-types && npx api-extractor run --local",
     "client-types:check": "yarn client-types && npx api-extractor run",
     "server:build": "tsc --project tsconfig.server.json --noEmit && node bundle/server/build.js",
-    "build": "yarn clean && yarn server:build && yarn client:build",
+    "build": "yarn clean && yarn server:build && yarn client:build && yarn client-types",
     "test:playwright": "playwright test",
     "start": "node dist/server.js",
     "prepack": "yarn build"

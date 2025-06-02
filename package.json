@@ -17,8 +17,7 @@
     "build": "yarn clean && yarn server:build && yarn client:build && yarn client-types",
     "test:playwright": "playwright test",
     "start": "node dist/server.js",
-    "prepack": "yarn build",
-    "prepare": "yarn build"
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",

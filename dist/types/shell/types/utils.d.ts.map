@@ -1,0 +1,1 @@
+{"version":3,"file":"utils.d.ts","sourceRoot":"","sources":["../../../../src/shell/types/utils.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,kBAAkB,GAAG;IAC/B,gBAAgB,EAAE,CAAC,QAAQ,EAAE,MAAM,KAAK;QACtC,MAAM,EAAE;YACN,GAAG,EAAE,CAAC,OAAO,EAAE,MAAM,KAAK,IAAI,CAAC;YAC/B,KAAK,EAAE,CAAC,OAAO,EAAE,MAAM,KAAK,IAAI,CAAC;SAClC,CAAC;KACH,CAAC;CACH,CAAC"}

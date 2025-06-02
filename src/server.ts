@@ -19,24 +19,6 @@ const productionEnvironments = ['production'];
 const shellBundleUrl =
   isLocal ? 'http://localhost:3001/js/bundle.js' : `https://1fe-a.akamaihd.net/${ENVIRONMENT}/shell/bundle.js`;
 
-// TODO[1fe]: Should we automatically recognize ONE_DS_BUNDLE, ROOT, FAVICON, etc. OUT OF THE BOX?
-const ROUTES = {
-  WATCHDOG: '/watchdog',
-  CSP_REPORT_ONLY: '/csp-report-only',
-  CSP_REPORT_VIOLATION: '/csp-report-violation',
-  HEALTH: '/health',
-  VERSION: '/version',
-  WIDGET_VERSION: '/version/*',
-  API: '/api',
-  IMAGES: '/images',
-  // Query Parameter needed for updating favicon cache
-  FAVICON: '/favicon.ico',
-  ROOT: '/',
-  SW: '/sw.js',
-  ONE_DS_BUNDLE: '/js/bundle.js',
-  EXAMPLE_BUNDLE: '/main.js',
-};
-
 const options = {
   environment: isLocal ? 'integration' : ENVIRONMENT,
   isProduction: productionEnvironments.includes(ENVIRONMENT),
@@ -54,12 +36,6 @@ const options = {
     refreshMs: 30 * 1000,
   },
   shellBundleUrl,
-  server: {
-    // TODO[1fe]: can probably be removed
-    bathtub: true,
-    // known routes are routes that 1fe will NOT 404 on if the current route does not match a plugin
-    knownRoutes: Object.values(ROUTES),
-  },
   csp: {
     defaultCSP: {
       enforced: enforcedDefaultCsp[ENVIRONMENT],
@@ -68,23 +44,27 @@ const options = {
   },
 };
 
-const app = oneFEServer(options);
+async function startServer() {
+  const app = await oneFEServer(options);
 
-// Middleware that parses json and looks at requests where the Content-Type header matches the type option.
-app.use(express.json());
+  // Middleware that parses json and looks at requests where the Content-Type header matches the type option.
+  app.use(express.json());
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
-// Serve API requests from the router
-app.use('/api', router);
+  // Serve API requests from the router
+  app.use('/api', router);
 
-app.use(errorMiddleware);
+  app.use(errorMiddleware);
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
+  // Set EJS as the view engine
+  app.set('view engine', 'ejs');
 
-app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server listening at http://localhost:${PORT}`);
+  });
+}
+
+startServer();

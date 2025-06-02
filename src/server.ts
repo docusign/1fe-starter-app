@@ -19,24 +19,6 @@ const productionEnvironments = ['production'];
 const shellBundleUrl =
   isLocal ? 'http://localhost:3001/js/bundle.js' : `https://1fe-a.akamaihd.net/${ENVIRONMENT}/shell/bundle.js`;
 
-// TODO[1fe]: Should we automatically recognize ONE_DS_BUNDLE, ROOT, FAVICON, etc. OUT OF THE BOX?
-const ROUTES = {
-  WATCHDOG: '/watchdog',
-  CSP_REPORT_ONLY: '/csp-report-only',
-  CSP_REPORT_VIOLATION: '/csp-report-violation',
-  HEALTH: '/health',
-  VERSION: '/version',
-  WIDGET_VERSION: '/version/*',
-  API: '/api',
-  IMAGES: '/images',
-  // Query Parameter needed for updating favicon cache
-  FAVICON: '/favicon.ico',
-  ROOT: '/',
-  SW: '/sw.js',
-  ONE_DS_BUNDLE: '/js/bundle.js',
-  EXAMPLE_BUNDLE: '/main.js',
-};
-
 const options = {
   environment: isLocal ? 'integration' : ENVIRONMENT,
   isProduction: productionEnvironments.includes(ENVIRONMENT),
@@ -54,12 +36,6 @@ const options = {
     refreshMs: 30 * 1000,
   },
   shellBundleUrl,
-  server: {
-    // TODO[1fe]: can probably be removed
-    bathtub: true,
-    // known routes are routes that 1fe will NOT 404 on if the current route does not match a plugin
-    knownRoutes: Object.values(ROUTES),
-  },
   csp: {
     defaultCSP: {
       enforced: enforcedDefaultCsp[ENVIRONMENT],

@@ -1,0 +1,29 @@
+# Installation
+> `npm install --save @types/deep-freeze`
+
+# Summary
+This package contains type definitions for deep-freeze (https://github.com/substack/deep-freeze).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/deep-freeze.
+## [index.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/deep-freeze/index.d.ts)
+````ts
+export = deepFreeze;
+
+declare function deepFreeze<T>(a: T[]): ReadonlyArray<deepFreeze.DeepReadonly<T>>;
+declare function deepFreeze<T extends Function>(f: T): T;
+declare function deepFreeze<T>(o: T): deepFreeze.DeepReadonly<T>;
+
+declare namespace deepFreeze {
+    type DeepReadonly<T> = T extends (...args: any) => any ? T
+        : { readonly [P in keyof T]: DeepReadonly<T[P]> };
+}
+
+````
+
+### Additional Details
+ * Last updated: Mon, 06 Nov 2023 22:41:05 GMT
+ * Dependencies: none
+
+# Credits
+These definitions were written by [Bart van der Schoor](https://github.com/Bartvds), and [Aluan Haddad](https://github.com/aluanhaddad).

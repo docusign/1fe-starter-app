@@ -4,23 +4,24 @@ import React from 'react';
 import { Loader } from './components/Loader';
 import { Error } from './components/Error';
 import { shellLogger } from './logger';
+import { CustomExampleUtils } from './types/utils';
+
+const exampleCustomUtils: CustomExampleUtils = {
+  initializeLogger: (widgetId: string) => ({
+    logger: {
+      log: (message: string) => {
+        console.log(`[${widgetId}]`, message);
+      },
+      error: (message: string) => {
+        console.error(`[${widgetId}]`, message);
+      },
+    },
+  }),
+};
 
 const setup = () => {
-  // TODO[1fe]: Just read from server configs put on DOM
-  // TODO[1fe]: Review the types here (components)
   renderOneFEShell({
-    utils: {
-      initializeLogger: (widgetId: string) => ({
-        logger: {
-          log: (message: string) => {
-            console.log(widgetId, message);
-          },
-          error: (message: string) => {
-            console.error(widgetId, message);
-          },
-        },
-      }),
-    },
+    utils: exampleCustomUtils,
     auth: {
       isAuthedCallback: (widgetId: string): boolean => {
         console.log(widgetId, ' is authenticated.');

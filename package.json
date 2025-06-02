@@ -2,6 +2,7 @@
   "name": "@1fe/starter-app",
   "version": "0.0.0",
   "private": true,
+  "types": "dist/shell/index.d.ts",
   "scripts": {
     "clean": "npx rimraf dist",
     "dev": "run-s client:dev server:dev",
@@ -65,8 +66,8 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server",
-    "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell",
+    "@1fe/server": "github:docusign/1fe#head=main&workspace=@1fe/server",
+    "@1fe/shell": "github:docusign/1fe#head=custom-util-types&workspace=@1fe/shell",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "11.14.0",
     "core-js": "^3.40.0",

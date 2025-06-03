@@ -1,14 +1,22 @@
 name: PR Checks
 
 on:
-  push:
-    branches: [main, test-workflows]
   pull_request:
     branches: [main]
-
+        
 jobs:
   pr-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          description: 'Node.js version to use'
+          required: false
+          type: string
+          default: '22'
+          cache: 'yarn'
+
       - uses: ./.github/actions/common-ci

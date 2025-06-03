@@ -8,7 +8,7 @@ runs:
       uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: | # Use YAML multi-line string to concatenate keys
-          ${{ secrets.PRIVATE_KEY_FOR_1FE }}
+          ${{ secrets.SSH_PRIVATE_1FE }}
 
     - name: Add github.com to known_hosts and configure Git URL rewrites
       run: |
@@ -35,6 +35,6 @@ runs:
 
     - run: yarn playwright install --with-deps
       shell: bash
-      
+
     - run: yarn test:playwright
       shell: bash

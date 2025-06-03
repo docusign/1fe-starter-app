@@ -1,0 +1,14 @@
+name: 'Common CI Tasks'
+description: 'Install, build, unit test, playwright test'
+
+runs:
+  using: "composite"
+  steps:
+    - run: yarn install --immutable
+      shell: bash
+    - run: yarn build
+      shell: bash
+    - run: yarn playwright install --with-deps
+      shell: bash
+    - run: yarn test:playwright
+      shell: bash

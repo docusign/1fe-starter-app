@@ -1,0 +1,14 @@
+name: PR Checks
+
+on:
+  push:
+    branches: [main, test-workflows]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pr-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/common-ci

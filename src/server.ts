@@ -7,35 +7,20 @@ import favicon from 'serve-favicon';
 import router from './lib/router';
 import { enforcedDefaultCsp, reportOnlyDefaultCsp } from './csp-configs';
 import errorMiddleware from './server/middlewares/error.middleware';
+import { ENVIRONMENT, ExampleHostedEnvironments, isLocal, isProduction } from './configs/env';
+import { criticalLibUrls } from './configs/critical-libs';
+import { configManagement } from './configs/ecosystem-configs';
 
 dotenv.config();
+
 const { PORT = 3001 } = process.env;
 
-const ENVIRONMENT: string = process.env.NODE_ENV === 'development' ? 'integration' : (process.env.NODE_ENV || 'production');
-
-const isLocal = process.env.NODE_ENV === 'development';
-const productionEnvironments = ['production'];
-
-const shellBundleUrl =
-  isLocal ? 'http://localhost:3001/js/bundle.js' : `https://1fe-a.akamaihd.net/${ENVIRONMENT}/shell/bundle.js`;
-
 const options = {
-  environment: isLocal ? 'integration' : ENVIRONMENT,
-  isProduction: productionEnvironments.includes(ENVIRONMENT),
+  environment: isLocal ? ExampleHostedEnvironments.integration : ENVIRONMENT,
+  isProduction,
   orgName: '1FE Starter App',
-  configManagement: {
-    widgetVersions: {
-      url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/widget-versions.json`,
-    },
-    libraryVersions: {
-      url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/lib-versions.json`,
-    },
-    dynamicConfigs: {
-      url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/live.json`
-    },
-    refreshMs: 30 * 1000,
-  },
-  shellBundleUrl,
+  configManagement,
+  criticalLibUrls,
   csp: {
     defaultCSP: {
       enforced: enforcedDefaultCsp[ENVIRONMENT],

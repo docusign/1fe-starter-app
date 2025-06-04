@@ -1,0 +1,41 @@
+name: Release and Deploy
+
+on:
+  push:
+    branches: [main, test-workflow]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Optional: Set up Node.js with cache
+      - uses: actions/setup-node@v4
+        with:
+          description: 'Node.js version to use'
+          required: false
+          type: string
+          default: '22'
+          cache: 'yarn'
+        
+      - name: Bump version and push tag
+        uses: phips28/gh-action-bump-version@v10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/common-ci
+        with:
+          private_key_for_1fe: ${{ secrets.SSH_PRIVATE_1FE }}
+
+      # # Bump version (using standard-version, semver, etc.)
+      # - run: npm version patch --no-git-tag-version
+
+      # # Publish types
+      # - run: npm run publish:types
+
+      # # Upload bundle to Akamai
+      # - run: npm run upload:akamai
+
+      # # Deploy to Azure
+      # - run: npm run deploy:azure

@@ -31,12 +31,34 @@ jobs:
       # # Publish types
       # - run: npm run publish:types
 
-      - name: Install Akamai CLI
+      - name: Install Akamai CLI and rsync
         run: |
           echo "Installing Akamai CLI..."
           curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
           chmod +x akamai
           sudo mv akamai /usr/local/bin/
+
+          # Install rsync
+          echo "Installing rsync..."
+          sudo apt-get update -q
+          sudo apt-get install -y -q rsync
+          rsync --version 
+
+          # Prepare SSH key for rsync
+          echo "Setting up SSH key for rsync..."
+          echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
+          chmod 600 $HOME/key.pem
+          echo "Tool setup and credential preparation complete."
+      
+      - name: Upload assets to Akamai NetStorage
+        run: |
+          echo "Uploading 1fe-starter-app assets to Akamai NetStorage..."
+
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
+          ./dist/public/ \
+          "sshacs@1fe.rsync.upload.akamai.com:/1fe-starter-app/$GITHUB_RUN_ID/" \
+
+          echo "Upload to NetStorage complete. Review logs for any rsync warnings or errors."
 
       # # Deploy to Azure
       # - run: npm run deploy:azure

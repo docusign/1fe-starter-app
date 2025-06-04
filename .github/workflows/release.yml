@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "Uploading 1fe-starter-app assets to Akamai NetStorage..."
 
-          ssh -i key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /1fe-starter-app/$GITHUB_RUN_ID/"
+          ssh -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /1fe-starter-app/$GITHUB_RUN_ID/"
 
           rsync -avz -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
           ./dist/public/ \

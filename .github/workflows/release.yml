@@ -56,7 +56,7 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /1fe-starter-app/$GITHUB_RUN_ID/"
 
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
+          rsync -avv --delete -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
           ./dist/public/ \
           "sshacs@1fe.rsync.upload.akamai.com:/1fe-starter-app/$GITHUB_RUN_ID/" \
 

@@ -28,14 +28,15 @@ jobs:
         with:
           private_key_for_1fe: ${{ secrets.SSH_PRIVATE_1FE }}
 
-      # # Bump version (using standard-version, semver, etc.)
-      # - run: npm version patch --no-git-tag-version
-
       # # Publish types
       # - run: npm run publish:types
 
-      # # Upload bundle to Akamai
-      # - run: npm run upload:akamai
+      - name: Install Akamai CLI
+        run: |
+          echo "Installing Akamai CLI..."
+          curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
+          chmod +x akamai
+          sudo mv akamai /usr/local/bin/
 
       # # Deploy to Azure
       # - run: npm run deploy:azure

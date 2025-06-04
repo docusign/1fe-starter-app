@@ -54,11 +54,11 @@ jobs:
         run: |
           echo "Uploading 1fe-starter-app assets to Akamai NetStorage..."
 
-          ssh -o StrictHostKeyChecking=no -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /1fe-starter-app/$GITHUB_RUN_ID/"
+          ssh -o StrictHostKeyChecking=no -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /production/1fe-starter-app/$GITHUB_RUN_ID/"
 
           rsync -avv --delete -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
           ./dist/public/ \
-          "sshacs@1fe.rsync.upload.akamai.com:/1fe-starter-app/$GITHUB_RUN_ID/" \
+          "sshacs@1fe.rsync.upload.akamai.com:/production/1fe-starter-app/$GITHUB_RUN_ID/" \
 
           echo "Upload to NetStorage complete. Review logs for any rsync warnings or errors."
 

@@ -5,9 +5,9 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@1fe/server@github:docusign/1fe#head=main&workspace=@1fe/server":
+"@1fe/server@git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server":
   version: 1.0.10
-  resolution: "@1fe/server@https://github.com/docusign/1fe.git#workspace=%401fe%2Fserver&commit=48b0489cec75439924e59c90d3c65f78508ab265"
+  resolution: "@1fe/server@git+ssh://git@github.com:docusign/1fe.git#workspace=%401fe%2Fserver&commit=997e44d545b8f79ac62e8997aa6ba672a7d66677"
   dependencies:
     badge-maker: "npm:^3.3.1"
     browserslist: "npm:^4.24.5"
@@ -22,13 +22,14 @@ __metadata:
     object-hash: "npm:^3.0.0"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
-  checksum: 10c0/7b67834d8fc9841a753c51e8c102c851449b618f1463f3765850929936eb6ab10a025fddcdda22672c70551be104048bd1373d83bb858aec77c8a508cb26d4b7
+    urlpattern-polyfill: "npm:^10.1.0"
+  checksum: 10c0/f477a8f17695d3618195d76ed3895839a3715e237fd7ac4b1d7f9d8ff2c73ed6d541fc36687c0d519e292dbc0ff482fb19dea27e062482746847f186f01dbcbf
   languageName: node
   linkType: hard
 
-"@1fe/shell@github:docusign/1fe#head=custom-util-types&workspace=@1fe/shell":
+"@1fe/shell@git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell":
   version: 1.0.10
-  resolution: "@1fe/shell@https://github.com/docusign/1fe.git#workspace=%401fe%2Fshell&commit=4536c89a78c46fc0e6602b3c1a2f9e5573bbef95"
+  resolution: "@1fe/shell@git+ssh://git@github.com:docusign/1fe.git#workspace=%401fe%2Fshell&commit=997e44d545b8f79ac62e8997aa6ba672a7d66677"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@emotion/react": "npm:^11.14.0"
@@ -55,8 +56,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@1fe/starter-app@workspace:."
   dependencies:
-    "@1fe/server": "github:docusign/1fe#head=main&workspace=@1fe/server"
-    "@1fe/shell": "github:docusign/1fe#head=custom-util-types&workspace=@1fe/shell"
+    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server"
+    "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell"
     "@babel/core": "npm:^7.26.10"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:11.14.0"
@@ -8802,6 +8803,13 @@ __metadata:
   dependencies:
     punycode: "npm:^2.1.0"
   checksum: 10c0/4ef57b45aa820d7ac6496e9208559986c665e49447cb072744c13b66925a362d96dd5a46c4530a6b8e203e5db5fe849369444440cb22ecfc26c679359e5dfa3c
+  languageName: node
+  linkType: hard
+
+"urlpattern-polyfill@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "urlpattern-polyfill@npm:10.1.0"
+  checksum: 10c0/5b124fd8d0ae920aa2a48b49a7a3b9ad1643b5ce7217b808fb6877826e751cabc01897fd4c85cd1989c4e729072b63aad5c3ba1c1325e4433e0d2f6329156bf1
   languageName: node
   linkType: hard
 

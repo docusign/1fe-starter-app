@@ -1,10 +1,5 @@
 const { DefinePlugin } = require('webpack');
 const fetch = require('node-fetch');
-const { resolve } = require('path');
-const { readFileSync } = require('fs');
-
-// Register ts-node to load TypeScript files directly
-require('ts-node/register');
 
 const BUILD_BUILDID = process.env.BUILD_BUILDID;
 const DEBUG_BUILD = process.env.DEBUG_BUILD === 'true';
@@ -48,28 +43,18 @@ async function fetchDynamicConfig() {
 /**
  * Gets the browserslist target configuration from dynamic config
  * @returns {Promise<string[]>} Array of browserslist targets
+ * @throws {Error} If the required configuration is not found
  */
 async function getBrowserslistTargets() {
-  try {
-    const dynamicConfig = await fetchDynamicConfig();
-    
-    if (dynamicConfig && 
-        dynamicConfig.platform && 
-        dynamicConfig.platform.browserslistConfig &&
-        Array.isArray(dynamicConfig.platform.browserslistConfig.buildTarget)) {
-      return dynamicConfig.platform.browserslistConfig.buildTarget;
-    } else {
-      console.warn('Dynamic browserslist config not found, falling back to package.json');
-      // Fall back to the browserslist in package.json
-      const packageJsonPath = resolve(__dirname, '../../package.json');
-      const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-      return packageJson.browserslist;
-    }
-  } catch (error) {
-    console.error('Error getting browserslist targets:', error);
-    // Fall back to a safe default
-    return ['defaults', 'not IE 11', 'not dead'];
+  let dynamicConfig = await fetchDynamicConfig();
+
+  if (Array.isArray(dynamicConfig?.platform?.browserslistConfig?.buildTarget) && 
+      dynamicConfig.platform.browserslistConfig.buildTarget.length) {
+    return dynamicConfig.platform.browserslistConfig.buildTarget;
   }
+
+  const errorMsg = 'Required browserslist configuration not found in dynamic config.';
+  throw new Error(`${errorMsg}\nReceived the following dynamic config:\n${JSON.stringify(dynamicConfig, null, 2)}`);
 }
 
 module.exports = {

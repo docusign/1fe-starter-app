@@ -15,7 +15,6 @@ const tsconfigClient = resolve(__dirname, '../../tsconfig.json');
 const getProdConfig = async (configOverrides) => {
   // Get dynamic browserslist target
   const browserslistConfig = await getBrowserslistTargets();
-  console.log('Using browserslist config:', browserslistConfig);
 
   // Create a temporary browserslistrc file to be used by webpack
   process.env.BROWSERSLIST = browserslistConfig.join();

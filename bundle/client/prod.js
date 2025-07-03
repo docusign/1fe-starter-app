@@ -18,7 +18,7 @@ const getProdConfig = async (configOverrides) => {
   console.log('Using browserslist config:', browserslistConfig);
 
   // Create a temporary browserslistrc file to be used by webpack
-  process.env.BROWSERSLIST = browserslistConfig.join(', ');
+  process.env.BROWSERSLIST = browserslistConfig.join();
   
   const prodConfig = {
     mode: shouldUseDevelopmentMode ? 'development' : 'production',

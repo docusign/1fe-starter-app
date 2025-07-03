@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const merge = require('webpack-merge');
 // const swConfig = require('./sw');
-const { commonPlugins, shouldUseDevelopmentMode } = require('./utils');
+const { commonPlugins, shouldUseDevelopmentMode, getBrowserslistTargets } = require('./utils');
 
 const tsconfigClient = resolve(__dirname, '../../tsconfig.json');
 
@@ -13,6 +13,13 @@ const tsconfigClient = resolve(__dirname, '../../tsconfig.json');
  * @param configOverrides
  */
 const getProdConfig = async (configOverrides) => {
+  // Get dynamic browserslist target
+  const browserslistConfig = await getBrowserslistTargets();
+  console.log('Using browserslist config:', browserslistConfig);
+
+  // Create a temporary browserslistrc file to be used by webpack
+  process.env.BROWSERSLIST = browserslistConfig.join(', ');
+  
   const prodConfig = {
     mode: shouldUseDevelopmentMode ? 'development' : 'production',
     target: 'browserslist',

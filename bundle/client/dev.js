@@ -5,6 +5,7 @@ const { EnvironmentPlugin, HotModuleReplacementPlugin } = require('webpack');
 const { isUndefined } = require('lodash');
 const getProdConfig = require('./prod');
 const { commonPlugins } = require('./utils');
+
 /**
  * This config is used for local development of the 1FE shell.
  * Remote development mode builds are handled internally by getProdConfig.

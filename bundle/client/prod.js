@@ -16,7 +16,8 @@ const getProdConfig = async (configOverrides) => {
   // Get dynamic browserslist target
   const browserslistConfig = await getBrowserslistTargets();
 
-  // Create a temporary browserslistrc file to be used by webpack
+  // Webpack read's from the environment variable BROWSERSLIST
+  // so we set it here to ensure the correct browserslist config is used.
   process.env.BROWSERSLIST = browserslistConfig.join();
   
   const prodConfig = {

@@ -78,6 +78,5 @@ module.exports = {
   DEBUG_BUILD,
   IS_TEST_RUN,
   IS_AUTOMATION_RUN,
-  fetchDynamicConfig,
   getBrowserslistTargets
 };

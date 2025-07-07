@@ -1,4 +1,5 @@
 const { DefinePlugin } = require('webpack');
+const { urls, getEnvironment } = require('../../src/configs/config-urls');
 
 const BUILD_BUILDID = process.env.BUILD_BUILDID;
 const DEBUG_BUILD = process.env.DEBUG_BUILD === 'true';
@@ -7,8 +8,8 @@ const IS_AUTOMATION_RUN = process.env.IS_AUTOMATION_RUN;
 
 const showDevtoolBasedOnEnvironment = process.env.NODE_ENV === 'development' || DEBUG_BUILD;
 
-// Define ENVIRONMENT directly matching the logic in src/configs/env.ts
-const ENVIRONMENT = process.env.NODE_ENV === 'development' ? 'integration' : (process.env.NODE_ENV || 'production');
+// Use the shared environment function from config-urls.js
+const ENVIRONMENT = getEnvironment();
 
 const commonPlugins = [
   new DefinePlugin({
@@ -26,8 +27,8 @@ const commonPlugins = [
  */
 async function fetchDynamicConfig() {
   try {
-    // Construct the URL directly since we can't import the TypeScript file
-    const url = `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/live.json`;
+    // Use the shared URL configuration with the common environment function
+    const url = urls.dynamicConfig();
     console.log(`Fetching dynamic config from: ${url}`);
     
     const response = await fetch(url);

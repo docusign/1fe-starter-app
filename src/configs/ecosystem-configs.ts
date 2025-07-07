@@ -1,14 +1,15 @@
-import { ENVIRONMENT } from "./env";
+// Use require for CommonJS module
+const { urls } = require("./config-urls");
 
 export const configManagement = {
   widgetVersions: {
-    url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/widget-versions.json`,
+    url: urls.widgetVersions(),
   },
   libraryVersions: {
-    url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/lib-versions.json`,
+    url: urls.libraryVersions(),
   },
   dynamicConfigs: {
-    url: `https://1fe-a.akamaihd.net/${ENVIRONMENT}/configs/live.json`
+    url: urls.dynamicConfig()
   },
   refreshMs: 30 * 1000,
 };

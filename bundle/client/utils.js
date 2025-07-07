@@ -1,5 +1,4 @@
 const { DefinePlugin } = require('webpack');
-const fetch = require('node-fetch');
 
 const BUILD_BUILDID = process.env.BUILD_BUILDID;
 const DEBUG_BUILD = process.env.DEBUG_BUILD === 'true';

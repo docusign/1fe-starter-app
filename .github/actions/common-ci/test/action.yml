@@ -1,0 +1,11 @@
+name: 'Test'
+description: 'Run playwright tests'
+
+runs:
+  using: "composite"
+  steps:
+    - run: yarn playwright install --with-deps
+      shell: bash
+      
+    - run: yarn test:playwright
+      shell: bash

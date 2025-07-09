@@ -1,5 +1,5 @@
 name: 'Common CI Tasks'
-description: 'Install, build, unit test, playwright test'
+description: 'Install, build, and test'
 
 inputs:
   private_key_for_1fe:
@@ -9,37 +9,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up SSH keys for all dependencies
-      uses: webfactory/ssh-agent@v0.9.1
+    - name: Setup environment
+      uses: ./setup
       with:
-        ssh-private-key: | # Use YAML multi-line string to concatenate keys
-          ${{ inputs.private_key_for_1fe }}
+        private_key_for_1fe: ${{ inputs.private_key_for_1fe }}
 
-    - name: Add github.com to known_hosts and configure Git URL rewrites
-      run: |
-        echo "INFO: Adding github.com to known_hosts"
-        mkdir -p ~/.ssh
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
+    - name: Build application
+      uses: ./build
 
-        echo "INFO: Configuring Git URL rewrites..."
-        git config --global url."git@github.com:docusign/1fe.git".insteadOf "https://github.com/docusign/1fe.git"
-        
-        echo "INFO: Git global config:"
-        git config --global --list
-
-        echo "INFO: SSH Agent status (keys loaded):"
-        ssh-add -l # Crucial: check if both keys are listed now
-      shell: bash
-
-    - run: yarn install --no-immutable
-      shell: bash
-
-    - run: yarn build
-      shell: bash
-
-    - run: yarn playwright install --with-deps
-      shell: bash
-
-    - run: yarn test:playwright
-      shell: bash
+    - name: Run tests
+      uses: ./test

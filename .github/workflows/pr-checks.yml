@@ -33,7 +33,6 @@ jobs:
           name: build-artifacts
           path: |
             dist
-          retention-days: 1
 
   test:
     name: Test

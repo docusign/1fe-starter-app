@@ -2,7 +2,7 @@ name: Release and Deploy
 
 on:
   push:
-    branches: [main, test-workflows]
+    branches: [main]
 
 jobs:
   release:

@@ -1,0 +1,21 @@
+name: 'Common CI Tasks'
+description: 'Install, build, and test'
+
+inputs:
+  private_key_for_1fe:
+    description: 'SSH private key for 1fe repository'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup environment
+      uses: ./setup
+      with:
+        private_key_for_1fe: ${{ inputs.private_key_for_1fe }}
+
+    - name: Build application
+      uses: ./build
+
+    - name: Run tests
+      uses: ./test

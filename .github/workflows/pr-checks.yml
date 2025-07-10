@@ -20,12 +20,12 @@ jobs:
           node-version: '22'
           cache: 'yarn'
 
-      # Run version bump only on push to main (release)
-      - name: Bump version and push tag
-        if: github.event_name == 'push'
-        uses: phips28/gh-action-bump-version@v11.0.7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # # Run version bump only on push to main (release)
+      # - name: Bump version and push tag
+      #   if: github.event_name == 'push'
+      #   uses: phips28/gh-action-bump-version@v11.0.7
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup environment
         uses: ./.github/actions/common-ci/setup

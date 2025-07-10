@@ -30,13 +30,6 @@ const getProdConfig = async (configOverrides) => {
     entry: {
       bundle: ['core-js', './src/shell/main.tsx'],
     },
-    resolve: {
-      fallback: {
-        crypto: false,
-        stream: false,
-        buffer: false,
-      },
-    },
     output: {
       path: resolve(__dirname, '../../dist/public'),
       filename: 'js/[name].js',

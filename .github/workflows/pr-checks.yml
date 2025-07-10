@@ -117,12 +117,6 @@ jobs:
           echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
           chmod 600 $HOME/key.pem
           echo "Tool setup and credential preparation complete."
-      
-      # Download build artifacts for Akamai
-      # - name: Download build artifacts
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: build-artifacts
           
       # - name: Upload assets to Akamai NetStorage
       #   run: |

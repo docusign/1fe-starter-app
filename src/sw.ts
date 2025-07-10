@@ -8,9 +8,6 @@ const STATIC_ASSETS_CACHE = 'STATIC_ASSETS_CACHE';
 // TODO - externalize this.
 // copied from @1fe/server because importing it causes sw.ts to use nodejs code somehow.
 const ONEFE_ROUTES = {
-  WATCHDOG: '/watchdog',
-  CSP_REPORT_ONLY: '/csp-report-only',
-  CSP_REPORT_VIOLATION: '/csp-report-violation',
   HEALTH: '/health',
   VERSION: '/version',
   WIDGET_VERSION: '/version/*',
@@ -26,23 +23,10 @@ enum AssetType {
 const regexToCacheAndRetry =
   /^(?!.*(127\.0\.0\.1|localhost)).*https?:\/\/.*\.(js|css|woff|woff2|json|png|svg)$/;
 
-const SWR_ENV_ALLOWLIST = [
-  'localhost',
-  // add more to the allowlist for regular worker here.
-];
-
-// use .endsWith so we can verify valid suffixes, which includes argo environments
-const enableSWR = SWR_ENV_ALLOWLIST.some((url) => {
-  return location.hostname.endsWith(url);
-});
-
 // non cache documents
 const DOCUMENTS_TO_NOT_CACHE: string[] = [
-  ONEFE_ROUTES.WATCHDOG,
   // shouldnt cache any documents from istio proxy
   ONEFE_ROUTES.HEALTH,
-  ONEFE_ROUTES.CSP_REPORT_ONLY,
-  ONEFE_ROUTES.CSP_REPORT_VIOLATION,
 ];
 
 // 2xx, 3xx should be considered valid responses
@@ -115,7 +99,6 @@ self.addEventListener('fetch', (event: any) => {
   if (
     event.request.mode === 'navigate' && // only catch document requests
     !incomingUrl.searchParams.has(SW_CB) && // SW cache bust requested on this request
-    enableSWR &&
     !DOCUMENTS_TO_NOT_CACHE.find((url) =>
       incomingUrl.pathname.startsWith(url),
     ) && // incoming request is a document that should not be cached
@@ -190,21 +173,7 @@ const handleRetry = async (request: Request, assetType: AssetType) => {
     retryCount++;
   }
 
-  if (assetType !== AssetType.DOCUMENTS) {
-    // If CDN fetchable asset AND maximum retries reached or still no success, fall back to custom CDN URL.
-    return fetch(getFallbackCdn(request.url), {
-      mode: 'cors',
-      credentials: 'omit',
-    });
-  } else {
-    return response;
-  }
-};
-
-const getFallbackCdn = (url: string) => {
-  // Grab path and fallback to istio proxy
-  const resourcePath = new URL(url).pathname;
-  return new URL(`/cdn${resourcePath}`, self.location.origin).href;
+  return response;
 };
 
 // Bring parity with GenerateSW configurations

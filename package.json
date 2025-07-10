@@ -88,8 +88,5 @@
     "workbox-strategies": "^7.3.0",
     "zod": "^3.25.36"
   },
-  "browser": {
-    "crypto": false
-  },
   "packageManager": "yarn@4.9.1"
 }

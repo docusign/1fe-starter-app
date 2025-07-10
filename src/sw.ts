@@ -24,10 +24,7 @@ const regexToCacheAndRetry =
   /^(?!.*(127\.0\.0\.1|localhost)).*https?:\/\/.*\.(js|css|woff|woff2|json|png|svg)$/;
 
 // non cache documents
-const DOCUMENTS_TO_NOT_CACHE: string[] = [
-  // shouldnt cache any documents from istio proxy
-  ONEFE_ROUTES.HEALTH,
-];
+const DOCUMENTS_TO_NOT_CACHE: string[] = [ONEFE_ROUTES.HEALTH];
 
 // 2xx, 3xx should be considered valid responses
 const isValidResponse = (responseStatus: number) => {

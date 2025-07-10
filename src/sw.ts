@@ -40,11 +40,9 @@ const SW_CB = 'sw_cb';
 // Retry twice after initial request failure
 const MAX_RETRIES = 2;
 
-// src/constants/search-params.ts
-const RUNTIME_CONFIG_OVERRIDES = 'runtime_config_overrides';
 const WIDGET_URL_OVERRIDES = 'widget_url_overrides';
 
-const paramsNotToCache = [RUNTIME_CONFIG_OVERRIDES, WIDGET_URL_OVERRIDES];
+const paramsNotToCache = [WIDGET_URL_OVERRIDES];
 
 // Check cache first, then make request if not in cache
 const cacheFirstStaticAssets = new CacheFirst({

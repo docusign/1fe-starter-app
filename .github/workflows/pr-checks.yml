@@ -1,12 +1,14 @@
-name: PR - Build, Test, and Validate
+name: CI/CD Pipeline
 
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main, feat/release-pipeline]  # Change this to your release branch if different
         
 jobs:
   build:
-    name: Build
+    name: Build and Prepare Release if needed.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,6 +20,13 @@ jobs:
           node-version: '22'
           cache: 'yarn'
 
+      # Run version bump only on push to main (release)
+      - name: Bump version and push tag
+        if: github.event_name == 'push'
+        uses: phips28/gh-action-bump-version@v11.0.7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup environment
         uses: ./.github/actions/common-ci/setup
         with:
@@ -26,16 +35,30 @@ jobs:
       - name: Build
         uses: ./.github/actions/common-ci/build
         
-      # Upload build artifacts for test job
-      - name: Upload build artifacts
+      # Create zip file for Azure deployment (only for release)
+      - name: Zip artifact for deployment
+        if: github.event_name == 'push'
+        run: zip release.zip ./dist/ -r
+        
+      # Upload build artifacts for test job - for both PR and release
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
             dist
 
+      # Upload release zip for deployment job - only for release
+      - name: Upload artifact for deployment
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: release.zip
+          retention-days: 30
+
   test:
-    name: Test
+    name: 'Test'
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -61,3 +84,75 @@ jobs:
 
       - name: Run tests
         uses: ./.github/actions/common-ci/test
+
+  # This job only runs on push events to main branch (release)
+  deploy:
+    name: Deploy
+    if: github.event_name == 'push'
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write # Required for requesting the JWT
+      contents: read  # Required for actions/checkout
+    steps:
+      # Akamai deployment
+      - name: Install Akamai CLI and rsync
+        run: |
+          echo "Installing Akamai CLI..."
+          curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
+          chmod +x akamai
+          sudo mv akamai /usr/local/bin/
+
+          # Install rsync
+          echo "Installing rsync..."
+          sudo apt-get update -q
+          sudo apt-get install -y -q rsync
+          rsync --version 
+
+          # Prepare SSH key for rsync
+          echo "Setting up SSH key for rsync..."
+          echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
+          chmod 600 $HOME/key.pem
+          echo "Tool setup and credential preparation complete."
+      
+      # Download build artifacts for Akamai
+      # - name: Download build artifacts
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-artifacts
+          
+      # - name: Upload assets to Akamai NetStorage
+      #   run: |
+      #     echo "Uploading assets to Akamai NetStorage..."
+      #     ssh -o StrictHostKeyChecking=no -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /production/1fe-starter-app/$GITHUB_RUN_ID/"
+      #     rsync -avv --delete -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
+      #     ./public/ \
+      #     "sshacs@1fe.rsync.upload.akamai.com:/production/1fe-starter-app/$GITHUB_RUN_ID/" 
+      #     echo "Upload to NetStorage complete."
+          
+      # Azure deployment
+      - name: Download artifact for deployment
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+          
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: '1fe-demo'
+          slot-name: 'Production'
+          package: ./dist

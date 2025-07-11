@@ -27,8 +27,13 @@ type WidgetVersions = OneFEConfigManagement['widgetVersions'] extends
   : never;
 
 export async function getWidgetVersions() {
-  if (!connectionString)
-    throw new Error('AZURE_APPCONFIG_CONNECTION_STRING is not set');
+  if (!connectionString) {
+    console.log(
+      'AZURE_APPCONFIG_CONNECTION_STRING is not set. using an empty widget version list.',
+    );
+    return [];
+  }
+
   const settings = await load(connectionString);
   const widgetVersions: WidgetVersions = [];
 

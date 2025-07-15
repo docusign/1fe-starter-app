@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]  # Change this to your release branch if different
+    branches: [main, feat/release-pipeline]  # Change this to your release branch if different
         
 jobs:
   build:
@@ -99,24 +99,24 @@ jobs:
       contents: read  # Required for actions/checkout
     steps:
       # Akamai deployment
-      - name: Install Akamai CLI and rsync
-        run: |
-          echo "Installing Akamai CLI..."
-          curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
-          chmod +x akamai
-          sudo mv akamai /usr/local/bin/
+      # - name: Install Akamai CLI and rsync
+      #   run: |
+      #     echo "Installing Akamai CLI..."
+      #     curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
+      #     chmod +x akamai
+      #     sudo mv akamai /usr/local/bin/
 
-          # Install rsync
-          echo "Installing rsync..."
-          sudo apt-get update -q
-          sudo apt-get install -y -q rsync
-          rsync --version 
+      #     # Install rsync
+      #     echo "Installing rsync..."
+      #     sudo apt-get update -q
+      #     sudo apt-get install -y -q rsync
+      #     rsync --version 
 
-          # Prepare SSH key for rsync
-          echo "Setting up SSH key for rsync..."
-          echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
-          chmod 600 $HOME/key.pem
-          echo "Tool setup and credential preparation complete."
+      #     # Prepare SSH key for rsync
+      #     echo "Setting up SSH key for rsync..."
+      #     echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
+      #     chmod 600 $HOME/key.pem
+      #     echo "Tool setup and credential preparation complete."
           
       # - name: Upload assets to Akamai NetStorage
       #   run: |
@@ -126,7 +126,7 @@ jobs:
       #     ./public/ \
       #     "sshacs@1fe.rsync.upload.akamai.com:/production/1fe-starter-app/$GITHUB_RUN_ID/" 
       #     echo "Upload to NetStorage complete."
-          
+
       # Azure deployment
       - name: Download artifact for deployment
         uses: actions/download-artifact@v4
@@ -136,6 +136,58 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      - name: Upload to Akamai
+        shell: bash
+        env:
+          AKAMAI_NS_SSH_PRIVATE_KEY: ${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}
+          AKAMAI_ENV_PATH: "integration"
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -e
+          
+          # ===== INSTALL DEPENDENCIES =====
+          echo "Installing rsync..."
+          sudo apt-get update -q
+          sudo apt-get install -y -q rsync
+          rsync --version
+          
+          # ===== SETUP SSH AUTHENTICATION =====
+          echo "Setting up SSH key for Akamai NetStorage..."
+          SSH_KEY_PATH="$HOME/key.pem"
+          printf "%s\n" "$AKAMAI_NS_SSH_PRIVATE_KEY" > "$SSH_KEY_PATH"
+          chmod 600 "$SSH_KEY_PATH"  # Secure the SSH key file
+          
+          # ===== DEFINE PATHS AND DIRECTORIES =====
+          local_source_dir="${{ github.workspace }}/dist/public"
+          staging_dir="staging_for_rsync"
+          relative_path_to_create="${AKAMAI_ENV_PATH}/shell/${{ github.run_id }}"
+          full_staging_path="$staging_dir/$relative_path_to_create"
+          
+          echo "Source directory: $local_source_dir"
+          echo "Target path: $relative_path_to_create"
+          
+          # ===== PREPARE STAGING DIRECTORY =====
+          echo "Creating staging directory structure..."
+          mkdir -p "$full_staging_path"
+          cp -a "$local_source_dir/." "$full_staging_path/"
+          
+          # ===== UPLOAD TO AKAMAI NETSTORAGE =====
+          echo "Uploading files to Akamai NetStorage..."
+          REMOTE_HOST="sshacs@1fe.rsync.upload.akamai.com"
+          SSH_OPTS="-o StrictHostKeyChecking=no -oBatchMode=yes -i $SSH_KEY_PATH"
+          
+          cd "$staging_dir"
+          # rsync flags: -a (archive), -v (verbose), -R (relative paths), -O (omit dir times)
+          rsync -avvRO -e "ssh $SSH_OPTS" "${AKAMAI_ENV_PATH}/" "$REMOTE_HOST:"
+          
+          # ===== CLEANUP =====
+          echo "Cleaning up temporary files..."
+          cd ../ # Go back to original directory
+          rm -rf "$staging_dir"
+          shred -u "$SSH_KEY_PATH" || rm -f "$SSH_KEY_PATH"
+          
+          echo "Upload to Akamai NetStorage completed successfully!"
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -143,10 +195,17 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: '1fe-demo'
-          slot-name: 'Production'
-          package: ./dist
+      - name: Set GITHUB_RUN_ID in Azure App Settings
+        run: |
+          az webapp config appsettings set \
+            --name '1fe-demo' \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --settings GITHUB_RUN_ID=${{ github.run_id }}
+
+      # - name: 'Deploy to Azure Web App'
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: '1fe-demo'
+      #     slot-name: 'Production'
+      #     package: ./dist

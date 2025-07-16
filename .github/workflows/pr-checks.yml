@@ -98,34 +98,6 @@ jobs:
       id-token: write # Required for requesting the JWT
       contents: read  # Required for actions/checkout
     steps:
-      # Akamai deployment
-      # - name: Install Akamai CLI and rsync
-      #   run: |
-      #     echo "Installing Akamai CLI..."
-      #     curl -sL https://github.com/akamai/cli/releases/download/v2.0.0/akamai-v2.0.0-linuxamd64 -o akamai
-      #     chmod +x akamai
-      #     sudo mv akamai /usr/local/bin/
-
-      #     # Install rsync
-      #     echo "Installing rsync..."
-      #     sudo apt-get update -q
-      #     sudo apt-get install -y -q rsync
-      #     rsync --version 
-
-      #     # Prepare SSH key for rsync
-      #     echo "Setting up SSH key for rsync..."
-      #     echo "${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}" > $HOME/key.pem
-      #     chmod 600 $HOME/key.pem
-      #     echo "Tool setup and credential preparation complete."
-          
-      # - name: Upload assets to Akamai NetStorage
-      #   run: |
-      #     echo "Uploading assets to Akamai NetStorage..."
-      #     ssh -o StrictHostKeyChecking=no -i $HOME/key.pem sshacs@1fe.rsync.upload.akamai.com "mkdir -p /production/1fe-starter-app/$GITHUB_RUN_ID/"
-      #     rsync -avv --delete -e "ssh -o StrictHostKeyChecking=no -i $HOME/key.pem" \
-      #     ./public/ \
-      #     "sshacs@1fe.rsync.upload.akamai.com:/production/1fe-starter-app/$GITHUB_RUN_ID/" 
-      #     echo "Upload to NetStorage complete."
 
       # Azure deployment
       - name: Download artifact for deployment
@@ -195,17 +167,17 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: Set GITHUB_RUN_ID in Azure App Settings
+      - name: Set BUILD_NUMBER environment variable in Azure App Settings so that it can be used in the app
         run: |
           az webapp config appsettings set \
             --name '1fe-demo' \
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --settings GITHUB_RUN_ID=${{ github.run_id }}
+            --settings BUILD_NUMBER=${{ github.run_id }}
 
-      # - name: 'Deploy to Azure Web App'
-      #   id: deploy-to-webapp
-      #   uses: azure/webapps-deploy@v3
-      #   with:
-      #     app-name: '1fe-demo'
-      #     slot-name: 'Production'
-      #     package: ./dist
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: '1fe-demo'
+          slot-name: 'Production'
+          package: ./dist

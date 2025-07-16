@@ -5,9 +5,9 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@1fe/server@git+ssh://git@github.com:docusign/1fe.git#head=sushruth/service-worker-support&workspace=@1fe/server":
+"@1fe/server@git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server":
   version: 1.0.10
-  resolution: "@1fe/server@git+ssh://git@github.com:docusign/1fe.git#workspace=%401fe%2Fserver&commit=22fd21044bedc9d96ba29a5dd0626cce0736418f"
+  resolution: "@1fe/server@git+ssh://git@github.com:docusign/1fe.git#workspace=%401fe%2Fserver&commit=8e294aa45f6a9fd3a111ebdb344c9ad218a37cce"
   dependencies:
     badge-maker: "npm:^3.3.1"
     browserslist: "npm:^4.25.0"
@@ -56,7 +56,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@1fe/starter-app@workspace:."
   dependencies:
-    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=sushruth/service-worker-support&workspace=@1fe/server"
+    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server"
     "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell"
     "@babel/core": "npm:^7.26.10"
     "@emotion/react": "npm:^11.14.0"

@@ -56,10 +56,10 @@ jobs:
           cp package.json deployment-package/
           cp yarn.lock deployment-package/
           
-          # Install only production dependencies
-          echo "Installing production dependencies..."
+          # Install all dependencies
+          echo "Installing all dependencies..."
           cd deployment-package
-          yarn install --production --frozen-lockfile
+          yarn install --immutable --immutable-cache
           
           # Verify the installation was successful
           if [ ! -d "node_modules" ]; then

@@ -42,37 +42,8 @@ jobs:
         run: |
           set -e  # Exit immediately if any command fails
           
-          echo "Creating deployment package..."
-          
-          # Create a deployment package with all necessary files
-          mkdir -p deployment-package
-          
-          # Copy built application
-          echo "Copying built application..."
-          cp -r dist deployment-package/
-          
-          # Copy package.json and yarn.lock for production dependencies
-          echo "Copying package files..."
-          cp package.json deployment-package/
-          cp yarn.lock deployment-package/
-          
-          # Install all dependencies
-          echo "Installing all dependencies..."
-          cd deployment-package
-          yarn install --immutable --immutable-cache
-          
-          # Verify the installation was successful
-          if [ ! -d "node_modules" ]; then
-            echo "ERROR: node_modules directory was not created"
-            exit 1
-          fi
-          
-          echo "Production dependencies installed successfully"
-          
-          # Create the zip file
-          echo "Creating release zip..."
-          cd ..
-          zip -r release.zip ./deployment-package/
+          echo "Creating deployment zip with everything..."
+          zip -r release.zip . -x "*.git*" "node_modules/.cache/*" ".github/*"
           
           # Verify the zip was created
           if [ ! -f "release.zip" ]; then
@@ -80,7 +51,7 @@ jobs:
             exit 1
           fi
           
-          echo "Deployment package created successfully"
+          echo "✅ Deployment package created successfully"
           ls -lh release.zip
         
       # Upload build artifacts for test job - for both PR and release
@@ -151,10 +122,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: |
           unzip release.zip
-          # Move ALL contents from deployment-package to root (including hidden files)
-          shopt -s dotglob  # Enable matching hidden files
-          mv deployment-package/* ./
-          rmdir deployment-package
 
       - name: Upload to Akamai
         shell: bash
@@ -235,4 +202,5 @@ jobs:
         with:
           app-name: '1fe-demo'
           slot-name: 'Production'
-          package: ./dist
+          package: ./
+          startup-command: 'yarn run start'

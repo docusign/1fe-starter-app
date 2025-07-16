@@ -151,7 +151,8 @@ jobs:
       - name: Unzip artifact for deployment
         run: |
           unzip release.zip
-          # Move contents from deployment-package to root for deployment
+          # Move ALL contents from deployment-package to root (including hidden files)
+          shopt -s dotglob  # Enable matching hidden files
           mv deployment-package/* ./
           rmdir deployment-package
 

@@ -119,9 +119,22 @@ jobs:
         with:
           name: node-app
           
-      - name: Unzip artifact for deployment
+      - name: Inspect and unzip artifact for deployment
         run: |
+          echo "=== ZIP FILE INFO ==="
+          ls -lh release.zip
+          echo ""
+          echo "=== ZIP CONTENTS ==="
+          unzip -l release.zip | head -20
+          echo ""
+          echo "=== EXTRACTING ZIP ==="
           unzip release.zip
+          echo ""
+          echo "=== EXTRACTED FOLDER STRUCTURE ==="
+          find . -maxdepth 3 -type d | sort
+          echo ""
+          echo "=== KEY FILES CHECK ==="
+          ls -la package.json dist/ 2>/dev/null || echo "Some expected files/folders may be missing"
 
       - name: Upload to Akamai
         shell: bash

@@ -15,3 +15,6 @@ dist-ssr
 
 # Playwright
 test-results/
+
+# local development
+.env

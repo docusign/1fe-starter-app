@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, feat/release-pipeline]  # Change this to your release branch if different
+    branches: [main]  # Change this to your release branch if different
         
 jobs:
   build:

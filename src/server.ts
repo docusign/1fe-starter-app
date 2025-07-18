@@ -30,14 +30,6 @@ const options = {
 };
 
 async function startServer() {
-
-  // Log environment variables for debugging
-  console.log('Environment Variables:');
-  console.log('NODE_ENV:', process.env.NODE_ENV || 'not set');
-  console.log('BUILD_NUMBER:', process.env.BUILD_NUMBER || 'not set');
-  console.log('Current Environment:', ENVIRONMENT);
-  console.log('Is Production:', isProduction);
-  console.log('Is Local:', isLocal);
   
   const app = await oneFEServer(options);
 

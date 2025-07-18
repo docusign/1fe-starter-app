@@ -29,9 +29,30 @@ type WidgetVersions = OneFEConfigManagement['widgetVersions'] extends
 export async function getWidgetVersions() {
   if (!connectionString) {
     console.log(
-      'AZURE_APPCONFIG_CONNECTION_STRING is not set. using an empty widget version list.',
+      'AZURE_APPCONFIG_CONNECTION_STRING is not set. using a static widget version list.',
     );
-    return [];
+    // This is for local development or testing purposes.
+    // In production, you should set the AZURE_APPCONFIG_CONNECTION_STRING environment variable
+    // to connect to your Azure App Configuration instance.
+    // The following is a mock implementation to simulate the expected output.
+    return [
+      {
+        widgetId: '@1fe/bathtub',
+        version: '1.0.50',
+      },
+      {
+        widgetId: '@1fe/sample-widget',
+        version: '1.0.2',
+      },
+      {
+        widgetId: '@1fe/sample-widget-with-auth',
+        version: '1.0.4',
+      },
+      {
+        widgetId: '@1fe/widget-starter-kit',
+        version: '1.0.17',
+      },
+    ];
   }
 
   const settings = await load(connectionString);

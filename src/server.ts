@@ -30,7 +30,6 @@ const options = {
 };
 
 async function startServer() {
-  
   const app = await oneFEServer(options);
 
   // Middleware that parses json and looks at requests where the Content-Type header matches the type option.

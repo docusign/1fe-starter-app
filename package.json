@@ -82,6 +82,10 @@
     "react-router-dom": "6.30.0",
     "serve-favicon": "^2.5.0",
     "systemjs": "^6.15.1",
+    "workbox-core": "^7.3.0",
+    "workbox-expiration": "^7.3.0",
+    "workbox-precaching": "^7.3.0",
+    "workbox-strategies": "^7.3.0",
     "zod": "^3.25.36"
   },
   "packageManager": "yarn@4.9.1"

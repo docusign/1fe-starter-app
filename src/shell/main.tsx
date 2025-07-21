@@ -5,6 +5,7 @@ import { Loader } from './components/Loader';
 import { Error } from './components/Error';
 import { shellLogger } from './logger';
 import { CustomExampleUtils } from './types/utils';
+import { initServiceWorker } from './utils/init-service-worker';
 
 const exampleCustomUtils: CustomExampleUtils = {
   initializeLogger: (widgetId: string) => ({
@@ -21,6 +22,12 @@ const exampleCustomUtils: CustomExampleUtils = {
 
 const setup = () => {
   renderOneFEShell({
+    hooks: {
+      onBeforeRenderShell: () => {
+        // This is a good place to initialize global state, register service workers, etc.
+        initServiceWorker();
+      },
+    },
     utils: exampleCustomUtils,
     auth: {
       isAuthedCallback: (widgetId: string): boolean => {

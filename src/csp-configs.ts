@@ -1,5 +1,4 @@
 import { CSPPerEnvironment } from '@1fe/server';
-import { connect } from 'http2';
 
 const commonCsp = {
   scriptSrc: [

@@ -1,9 +1,15 @@
 import { CSPPerEnvironment } from '@1fe/server';
 
 const commonCsp = {
-  scriptSrc: ['*'],
+  scriptSrc: [
+    "'self'",
+    'https://1fe-a.akamaihd.net',
+  ],
   styleSrc: ["'unsafe-inline'"],
-  connectSrc: ['*'], // this is required for the service worker to fetch resources
+  connectSrc: [
+    "'self'",
+    'https://1fe-a.akamaihd.net',
+  ],
 };
 
 export const enforcedDefaultCsp: Record<string, CSPPerEnvironment> = {

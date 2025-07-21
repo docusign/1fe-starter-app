@@ -58,7 +58,7 @@ test.describe('Validation of security middleware headers for different routes', 
       '**/csp-report-violation',
     );
 
-    await page.goto(`${currenturl.origin}/starter-kit`, {
+    await page.goto(`${currenturl.origin}/app1`, {
       waitUntil: 'domcontentloaded',
     });
 

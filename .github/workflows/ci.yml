@@ -1,0 +1,29 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      node_version_override:
+        description: 'Override Node.js version for this run (e.g., 20)'
+        required: false
+        type: string
+
+jobs:
+  run_ci:
+    name: Run CI
+    uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml@feat/ci-starter-app
+    with:
+      node-version: ${{ github.event.inputs.node_version_override || '22' }}
+    secrets:
+      PRIVATE_KEY_FOR_1FE: ${{ secrets.SSH_PRIVATE_1FE }}
+      AKAMAI_NS_SSH_PRIVATE_KEY: ${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}
+      AZUREAPPSERVICE_CLIENTID: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+      AZUREAPPSERVICE_TENANTID: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+      AZUREAPPSERVICE_SUBSCRIPTIONID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+      AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}

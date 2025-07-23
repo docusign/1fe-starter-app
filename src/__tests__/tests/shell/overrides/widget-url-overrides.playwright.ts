@@ -33,10 +33,10 @@
 //   path: string,
 //   overrideUrl?: string,
 // ): string =>
-//   `http://localhost:3001/app1${path}?widget_url_overrides={"${widgetId}":${ overrideUrl ? overrideUrl : widgetUrl }}`;
+//   `http://localhost:3001/widget-starter-kit${path}?widget_url_overrides={"${widgetId}":${ overrideUrl ? overrideUrl : widgetUrl }}`;
 
 // const getUrlNoOverride = (path: string): string =>
-//   `http://localhost:3001/app1${path}`;
+//   `http://localhost:3001/widget-starter-kit${path}`;
 
 // test(
 //   'Make sure "?widget_url_overrides=" query param works',
@@ -104,7 +104,7 @@
 // // test(
 // //   '?widget_url_overrides leads to correct pinned widget behavior @e2e',
 // //   async ({ page }) => {
-// //     await page.goto('http://localhost:3001/app1');
+// //     await page.goto('http://localhost:3001/widget-starter-kit');
 
 // //     const startingLocalStorage = await getLocalStorage(page);
 // //     expect(startingLocalStorage).toEqual([]);
@@ -188,13 +188,13 @@
 // test(
 //   '?widget_url_overrides should not override if using non-whitelisted source @e2e',
 //   async ({ page }) => {
-//     await page.goto('http://localhost:3001/app1');
+//     await page.goto('http://localhost:3001/widget-starter-kit');
 
 //     const startingLocalStorage = await getLocalStorage(page);
 //     expect(startingLocalStorage).toEqual([]);
 
 //     expect(
-//       (await getWidgetConfigFromPage(page, '@1fe/starter-kit2'))
+//       (await getWidgetConfigFromPage(page, '@1fe/sample-widget'))
 //         ?.runtime,
 //     ).toEqual(expectedCurrentGenericChildRuntimeConfig);
 

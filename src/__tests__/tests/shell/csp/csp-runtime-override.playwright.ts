@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const runtimeOverride = {
-  '@1fe/starter-kit': {
+  '@1fe/widget-starter-kit': {
     headers: {
       csp: {
         enforced: {
@@ -12,7 +12,7 @@ const runtimeOverride = {
   },
 };
 
-const wskRuntimeOverrideUrl = `http://localhost:3001/app1?runtime_config_overrides=${JSON.stringify(runtimeOverride)}`;
+const wskRuntimeOverrideUrl = `http://localhost:3001/widget-starter-kit?runtime_config_overrides=${JSON.stringify(runtimeOverride)}`;
 
 test('should override csp only on integration', async ({ page }) => {
   // Listen to any CSP violation errors in console
@@ -25,7 +25,7 @@ test('should override csp only on integration', async ({ page }) => {
 
   const pageResponse = page.waitForResponse(
     (response) =>
-      response.url().includes('http://localhost:3001/app1') &&
+      response.url().includes('http://localhost:3001/widget-starter-kit') &&
       response.status() === 200,
   );
 

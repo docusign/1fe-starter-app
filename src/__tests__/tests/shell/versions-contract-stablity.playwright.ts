@@ -120,7 +120,7 @@ test.describe('Version endpoint enhancements', () => {
     test('should return the "current" version of the widget', async ({
       request,
     }) => {
-      const url = createRequestUrl('@1fe/starter-kit', 'current');
+      const url = createRequestUrl('@1fe/widget-starter-kit', 'current');
       const response = await request.get(url, {
         headers: {
           'User-Agent': '1fe-automation',
@@ -133,8 +133,8 @@ test.describe('Version endpoint enhancements', () => {
 
       const widgetVersion = widgetVersionSchema.parse(result);
       expect(widgetVersion).toBeDefined();
-      expect(widgetVersion.id).toBe('@1fe/starter-kit');
-      expect(widgetVersion.url).toContain('@1fe/starter-kit');
+      expect(widgetVersion.id).toBe('@1fe/widget-starter-kit');
+      expect(widgetVersion.url).toContain('@1fe/widget-starter-kit');
       expect(widgetVersion.bundle).toContain('1fe-bundle.js');
       expect(widgetVersion.contract).toContain('contract.rolledUp.d.ts');
     });
@@ -144,7 +144,7 @@ test.describe('Version endpoint enhancements', () => {
     test('should return a 400 if using non-current version', async ({
       request,
     }) => {
-      const url = createRequestUrl('@1fe/starter-kit', '1.0.0');
+      const url = createRequestUrl('@1fe/widget-starter-kit', '1.0.0');
       const response = await request.get(url, {
         headers: {
           'User-Agent': '1fe-automation',
@@ -159,7 +159,7 @@ test.describe('Version endpoint enhancements', () => {
     test('should return a 400 if using non-current version', async ({
       request,
     }) => {
-      const url = createRequestUrl('@1fe/starter-kit', '1.0.0');
+      const url = createRequestUrl('@1fe/widget-starter-kit', '1.0.0');
       const response = await request.get(url, {
         headers: {
           'User-Agent': '1fe-automation',
@@ -171,7 +171,7 @@ test.describe('Version endpoint enhancements', () => {
     test('should return the "current" version of the widget', async ({
       request,
     }) => {
-      const url = createRequestUrl('@1fe/starter-kit', 'current');
+      const url = createRequestUrl('@1fe/widget-starter-kit', 'current');
       const response = await request.get(`${url}/bundle`, {
         headers: {
           'User-Agent': '1fe-automation',

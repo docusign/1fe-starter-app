@@ -36,14 +36,14 @@ const metaTags = [
 ];
 
 const runtimeOverride = {
-  '@1fe/starter-kit': {
+  '@1fe/widget-starter-kit': {
     plugin: {
       metaTags,
     },
   },
 };
 
-const wskRuntimeOverrideUrl = `http://localhost:3001/app1?runtime_config_overrides=${JSON.stringify(runtimeOverride)}`;
+const wskRuntimeOverrideUrl = `http://localhost:3001/widget-starter-kit?runtime_config_overrides=${JSON.stringify(runtimeOverride)}`;
 
 test("Ensure metaTags from a widget's runtimeConfigs are added to the HTML response", async ({
   page,

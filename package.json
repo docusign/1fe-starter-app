@@ -66,8 +66,9 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server",
-    "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell",
+    "@1fe/server": "0.0.1",
+    "@1fe/shell": "0.0.1",
+    "@azure/app-configuration-provider": "^2.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "11.14.0",
     "core-js": "^3.40.0",

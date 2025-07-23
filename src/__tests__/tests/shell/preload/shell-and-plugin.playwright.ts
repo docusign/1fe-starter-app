@@ -9,9 +9,9 @@
 //     page.on('request', (request) => {
 //       networkEvents.push(request.url());
 //     });
-//     await page.goto('http://localhost:3001/app1');
+//     await page.goto('http://localhost:3001/widget-starter-kit');
 
-//     await page.waitForURL('http://localhost:3001/app1', {
+//     await page.waitForURL('http://localhost:3001/widget-starter-kit', {
 //       waitUntil: 'load',
 //     });
 

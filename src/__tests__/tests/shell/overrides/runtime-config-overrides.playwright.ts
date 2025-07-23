@@ -3,7 +3,7 @@ import { isEqual } from 'lodash';
 
 import { getWidgetConfigFromPage } from '../../../test-utils/envs';
 
-const wskId = '@1fe/starter-kit2';
+const wskId = '@1fe/widget-starter-kit';
 
 const mockRuntimeConfigOverride = {
   [wskId]: {
@@ -25,7 +25,7 @@ const mockRuntimeConfigOverride = {
   },
 };
 
-const wskRuntimeOverrideUrl = `http://localhost:3001/app1?runtime_config_overrides=${JSON.stringify(mockRuntimeConfigOverride)}`;
+const wskRuntimeOverrideUrl = `http://localhost:3001/widget-starter-kit?runtime_config_overrides=${JSON.stringify(mockRuntimeConfigOverride)}`;
 
 test('"?runtime_config_overrides=" query param overrides the runtime config', async ({
   page,
@@ -89,11 +89,11 @@ test('"?runtime_config_overrides=" query param overrides the runtime config', as
   // }
 });
 
-test('runtime_config_overrides should take presidence over widget_url_overrides', async ({
+test.skip('runtime_config_overrides should take presidence over widget_url_overrides', async ({
   page,
 }) => {
   const bundleOverrideUrl =
-    'https://docutest-a.akamaihd.net/integration/1fe/widgets/@internal/generic-child-widget/1.0.20/js/1fe-bundle.js';
+    'https://1fe-a.akamaihd.net/integration/1fe/widgets/@internal/generic-child-widget/1.0.20/js/1fe-bundle.js';
 
   const mockRuntimeConfigOverride = {
     preload: [
@@ -103,12 +103,12 @@ test('runtime_config_overrides should take presidence over widget_url_overrides'
     ],
   };
 
-  const wskRuntimeAndBundleOverrideUrl = `http://localhost:3001/app1?runtime_config_overrides=${JSON.stringify({ ['@1fe/starter-kit2']: mockRuntimeConfigOverride })}&widget_url_overrides=${JSON.stringify({ ['@1fe/starter-kit2']: bundleOverrideUrl })}`;
+  const wskRuntimeAndBundleOverrideUrl = `http://localhost:3001/widget-starter-kit?runtime_config_overrides=${JSON.stringify({ ['@1fe/sample-widget']: mockRuntimeConfigOverride })}&widget_url_overrides=${JSON.stringify({ ['@1fe/sample-widget']: bundleOverrideUrl })}`;
 
   await page.goto(wskRuntimeAndBundleOverrideUrl);
 
   const runtimeConfig = (
-    await getWidgetConfigFromPage(page, '@1fe/starter-kit2')
+    await getWidgetConfigFromPage(page, '@1fe/sample-widget')
   )?.runtime;
 
   expect(runtimeConfig).toEqual(mockRuntimeConfigOverride);

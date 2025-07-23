@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('utils.experience.title.set', async ({ page }) => {
-  await page.goto('http://localhost:3001/app1/utils');
+  await page.goto('http://localhost:3001/widget-starter-kit/utils');
 
   let title = await page.title();
 
@@ -17,7 +17,7 @@ test('utils.experience.title.set', async ({ page }) => {
 });
 
 test('utils.experience.title.get', async ({ page }) => {
-  await page.goto('http://localhost:3001/app1/utils');
+  await page.goto('http://localhost:3001/widget-starter-kit/utils');
 
   page.on('dialog', async (dialog) => {
     expect(dialog.message()).toBe('1FE Starter App');

@@ -16,7 +16,7 @@ import {
       ? 'If enable1dsDevtool is true, Import Map Overrides button visible on stage only @importMapOverrides @e2e'
       : 'If enable1dsDevtool is false, Import Map Overrides button visible on Int+Stage and not on Demo+Prod @importMapOverrides @e2e',
     async ({ page }) => {
-      const url = 'http://localhost:3001/app1';
+      const url = 'http://localhost:3001/widget-starter-kit';
       // const url = getWskUrlWithDevtoolVisible({ enable1dsDevtool });
       await page.goto(url);
 
@@ -46,7 +46,7 @@ import {
   // test(
   //   `enable1dsDevtool: ${enable1dsDevtool}, Using import-map-overrides ui triggers a runtime config override @importMapOverrides @e2e`,
   //   async ({ page }) => {
-  //     const url = 'http://localhost:3001/app1';
+  //     const url = 'http://localhost:3001/widget-starter-kit';
   //     await page.goto(url);
   //     // const environment = await getEnvironmentFromDom(page);
 
@@ -57,7 +57,7 @@ import {
   //     // }
 
   //     const getGenericChildRuntimeConfig = async () =>
-  //       (await getWidgetConfigFromPage(page, '@1fe/starter-kit2'))
+  //       (await getWidgetConfigFromPage(page, '@1fe/sample-widget'))
   //         ?.runtime;
 
   //     const startingRuntimeConfig = await getGenericChildRuntimeConfig();
@@ -115,7 +115,7 @@ import {
   // test(
   //   `enable1dsDevtool: ${enable1dsDevtool}, ?runtime_config_overrides - import map and localStorage runtime configs should be cleared when resetting @e2e`,
   //   async ({ page }) => {
-  //     const url = 'http://localhost:3001/app1';
+  //     const url = 'http://localhost:3001/widget-starter-kit';
   //     await page.goto(url);
   //     // const environment = await getEnvironmentFromDom(page);
 

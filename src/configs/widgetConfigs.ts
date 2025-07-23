@@ -17,7 +17,7 @@ import { OneFEConfigManagement } from '@1fe/server';
 import { ENVIRONMENT } from './env';
 const connectionString = process.env.AZURE_APPCONFIG_CONNECTION_STRING;
 
-// TODO - consider exporting this directly from @1fe/server
+// TODO @sushruth - consider exporting this type directly from @1fe/server
 type WidgetVersions = OneFEConfigManagement['widgetVersions'] extends
   | {
       get: () => Promise<infer T>;
@@ -26,7 +26,7 @@ type WidgetVersions = OneFEConfigManagement['widgetVersions'] extends
   ? T
   : never;
 
-export async function getWidgetVersions() {
+export async function getWidgetVersions(): Promise<WidgetVersions> {
   if (!connectionString) {
     console.log(
       'AZURE_APPCONFIG_CONNECTION_STRING is not set. using a static widget version list.',
@@ -55,14 +55,14 @@ export async function getWidgetVersions() {
     ];
   }
 
-  const settings = await load(connectionString);
-  const widgetVersions: WidgetVersions = [];
+  const widgetVersions = await load(connectionString, {
+    selectors: [
+      {
+        keyFilter: `${ENVIRONMENT}:*`,
+      },
+    ],
+    trimKeyPrefixes: [`${ENVIRONMENT}:`],
+  });
 
-  for (const [widgetKey, widgetVersion] of settings.entries()) {
-    if (widgetKey.startsWith(ENVIRONMENT) && widgetVersion) {
-      widgetVersions.push(widgetVersion);
-    }
-  }
-
-  return widgetVersions;
+  return Array.from(widgetVersions.values());
 }

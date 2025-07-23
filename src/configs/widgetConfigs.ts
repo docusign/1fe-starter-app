@@ -35,7 +35,7 @@ export async function getWidgetVersions(): Promise<WidgetVersions> {
     // In production, you should set the AZURE_APPCONFIG_CONNECTION_STRING environment variable
     // to connect to your Azure App Configuration instance.
     // The following is a mock implementation to simulate the expected output.
-    return [
+    return Promise.resolve([
       {
         widgetId: '@1fe/bathtub',
         version: '1.0.50',
@@ -52,7 +52,7 @@ export async function getWidgetVersions(): Promise<WidgetVersions> {
         widgetId: '@1fe/widget-starter-kit',
         version: '1.0.18',
       },
-    ];
+    ]);
   }
 
   const widgetVersions = await load(connectionString, {

@@ -26,7 +26,7 @@ jobs:
         with:
           npm_token_readonly: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
         env:
-          NPM_CONFIG_USERCONFIG: ${{ env.NPM_CONFIG_USERCONFIG }}
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.npmrc
 
       - name: Build
         uses: ./.github/actions/common-ci/build
@@ -84,7 +84,9 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/common-ci/setup
         with:
-          private_key_for_1fe: ${{ secrets.SSH_PRIVATE_1FE }}
+          npm_token_readonly: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
+        env:
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.npmrc
 
       # Download build artifacts from build job
       - name: Download build artifacts

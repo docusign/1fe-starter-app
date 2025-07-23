@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]  # Change this to your release branch if different
-        
+    branches: [main] # Change this to your release branch if different
+
 jobs:
   build:
     name: Build
@@ -13,12 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'yarn'
 
       # Run version bump only on push to main (release)
       # - name: Bump version and push tag
@@ -31,29 +25,32 @@ jobs:
         uses: ./.github/actions/common-ci/setup
         with:
           private_key_for_1fe: ${{ secrets.SSH_PRIVATE_1FE }}
+          npm_token_readonly: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
+        env:
+          NPM_CONFIG_USERCONFIG: ${{ env.NPM_CONFIG_USERCONFIG }}
 
       - name: Build
         uses: ./.github/actions/common-ci/build
-        
+
       # Create zip file for Azure deployment (only for release)
       - name: Zip artifact for deployment
         if: github.event_name == 'push'
         shell: bash
         run: |
           set -e  # Exit immediately if any command fails
-          
+
           echo "Creating deployment zip with everything..."
           zip -r release.zip . -x "*.git*" "node_modules/.cache/*" ".github/*"
-          
+
           # Verify the zip was created
           if [ ! -f "release.zip" ]; then
             echo "ERROR: release.zip was not created"
             exit 1
           fi
-          
+
           echo "✅ Deployment package created successfully"
           ls -lh release.zip
-        
+
       # Upload build artifacts for test job - for both PR and release
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -72,7 +69,7 @@ jobs:
           retention-days: 30
 
   test:
-    name: 'Test'
+    name: "Test"
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -82,14 +79,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'yarn'
-          
+          node-version: "22"
+          cache: "yarn"
+
       - name: Setup environment
         uses: ./.github/actions/common-ci/setup
         with:
           private_key_for_1fe: ${{ secrets.SSH_PRIVATE_1FE }}
-      
+
       # Download build artifacts from build job
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -106,19 +103,18 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write # Required for requesting the JWT
-      contents: read  # Required for actions/checkout
+      contents: read # Required for actions/checkout
     steps:
-
       # Azure deployment
       - name: Download artifact for deployment
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          
+
       - name: Inspect and unzip artifact for deployment
         run: |
           echo "=== ZIP FILE INFO ==="
@@ -144,48 +140,48 @@ jobs:
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           set -e
-          
+
           # ===== INSTALL DEPENDENCIES =====
           echo "Installing rsync..."
           sudo apt-get update -q
           sudo apt-get install -y -q rsync
           rsync --version
-          
+
           # ===== SETUP SSH AUTHENTICATION =====
           echo "Setting up SSH key for Akamai NetStorage..."
           SSH_KEY_PATH="$HOME/key.pem"
           printf "%s\n" "$AKAMAI_NS_SSH_PRIVATE_KEY" > "$SSH_KEY_PATH"
           chmod 600 "$SSH_KEY_PATH"  # Secure the SSH key file
-          
+
           # ===== DEFINE PATHS AND DIRECTORIES =====
           local_source_dir="${{ github.workspace }}/dist/public"
           staging_dir="staging_for_rsync"
           relative_path_to_create="${AKAMAI_ENV_PATH}/shell/${{ github.run_id }}"
           full_staging_path="$staging_dir/$relative_path_to_create"
-          
+
           echo "Source directory: $local_source_dir"
           echo "Target path: $relative_path_to_create"
-          
+
           # ===== PREPARE STAGING DIRECTORY =====
           echo "Creating staging directory structure..."
           mkdir -p "$full_staging_path"
           cp -a "$local_source_dir/." "$full_staging_path/"
-          
+
           # ===== UPLOAD TO AKAMAI NETSTORAGE =====
           echo "Uploading files to Akamai NetStorage..."
           REMOTE_HOST="sshacs@1fe.rsync.upload.akamai.com"
           SSH_OPTS="-o StrictHostKeyChecking=no -oBatchMode=yes -i $SSH_KEY_PATH"
-          
+
           cd "$staging_dir"
           # rsync flags: -a (archive), -v (verbose), -R (relative paths), -O (omit dir times)
           rsync -avvRO -e "ssh $SSH_OPTS" "${AKAMAI_ENV_PATH}/" "$REMOTE_HOST:"
-          
+
           # ===== CLEANUP =====
           echo "Cleaning up temporary files..."
           cd ../ # Go back to original directory
           rm -rf "$staging_dir"
           shred -u "$SSH_KEY_PATH" || rm -f "$SSH_KEY_PATH"
-          
+
           echo "Upload to Akamai NetStorage completed successfully!"
 
       - name: Login to Azure
@@ -201,7 +197,7 @@ jobs:
             --name '1fe-demo' \
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
             --settings BUILD_NUMBER=${{ github.run_id }}
-          
+
           # Verify the setting was applied
           echo "Verifying BUILD_NUMBER was set..."
           az webapp config appsettings list \
@@ -209,11 +205,11 @@ jobs:
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
             --query "[?name=='BUILD_NUMBER']"
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: '1fe-demo'
-          slot-name: 'Production'
+          app-name: "1fe-demo"
+          slot-name: "Production"
           package: ./
-          startup-command: 'yarn run start'
+          startup-command: "yarn run start"

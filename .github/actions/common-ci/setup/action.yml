@@ -1,9 +1,12 @@
-name: 'Setup Environment'
-description: 'Set up SSH keys, install dependencies and other common setup tasks'
+name: "Setup Environment"
+description: "Set up SSH keys, install dependencies and other common setup tasks"
 
 inputs:
   private_key_for_1fe:
-    description: 'SSH private key for 1fe repository'
+    description: "SSH private key for 1fe repository"
+    required: true
+  npm_token_readonly:
+    description: "NPM token for read-only access to 1fe packages"
     required: true
 
 runs:
@@ -24,13 +27,20 @@ runs:
 
         echo "INFO: Configuring Git URL rewrites..."
         git config --global url."git@github.com:docusign/1fe.git".insteadOf "https://github.com/docusign/1fe.git"
-        
+
         echo "INFO: Git global config:"
         git config --global --list
 
         echo "INFO: SSH Agent status (keys loaded):"
         ssh-add -l # Crucial: check if both keys are listed now
       shell: bash
+
+    - name: Authenticate to npm
+      shell: bash
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ inputs.npm_token_readonly }}" > ${{ env.NPM_CONFIG_USERCONFIG }}
+        yarn config set npmRegistryServer https://registry.npmjs.org
+        yarn config set npmAuthToken ${{ inputs.npm_token_readonly }}
 
     - run: yarn install --no-immutable
       shell: bash

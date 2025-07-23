@@ -1,9 +1,9 @@
-name: 'Common CI Tasks'
-description: 'Install, build, and test'
+name: "Common CI Tasks"
+description: "Install, build, and test"
 
 inputs:
   private_key_for_1fe:
-    description: 'SSH private key for 1fe repository'
+    description: "SSH private key for 1fe repository"
     required: true
 
 runs:
@@ -13,6 +13,7 @@ runs:
       uses: ./setup
       with:
         private_key_for_1fe: ${{ inputs.private_key_for_1fe }}
+        npm_token_readonly: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
 
     - name: Build application
       uses: ./build

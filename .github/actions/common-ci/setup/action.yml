@@ -1,10 +1,7 @@
 name: "Setup Environment"
-description: "Set up SSH keys, install dependencies and other common setup tasks"
+description: "Install dependencies and other common setup tasks"
 
 inputs:
-  private_key_for_1fe:
-    description: "SSH private key for 1fe repository"
-    required: true
   npm_token_readonly:
     description: "NPM token for read-only access to 1fe packages"
     required: true
@@ -12,29 +9,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up SSH keys for all dependencies
-      uses: webfactory/ssh-agent@v0.9.1
-      with:
-        ssh-private-key: | # Use YAML multi-line string to concatenate keys
-          ${{ inputs.private_key_for_1fe }}
-
-    - name: Add github.com to known_hosts and configure Git URL rewrites
-      run: |
-        echo "INFO: Adding github.com to known_hosts"
-        mkdir -p ~/.ssh
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
-
-        echo "INFO: Configuring Git URL rewrites..."
-        git config --global url."git@github.com:docusign/1fe.git".insteadOf "https://github.com/docusign/1fe.git"
-
-        echo "INFO: Git global config:"
-        git config --global --list
-
-        echo "INFO: SSH Agent status (keys loaded):"
-        ssh-add -l # Crucial: check if both keys are listed now
-      shell: bash
-
     - name: Authenticate to npm
       shell: bash
       run: |

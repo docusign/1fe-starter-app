@@ -1,17 +1,9 @@
 import { CSPPerEnvironment } from '@1fe/server';
 
 const commonCsp = {
-  scriptSrc: [
-    "'self'",
-    'https://1fe-a.akamaihd.net',
-    'https://cdn.jsdelivr.net/',
-  ],
+  scriptSrc: ["'self'", 'https://1fe-a.akamaihd.net'],
   styleSrc: ["'unsafe-inline'"],
-  connectSrc: [
-    "'self'",
-    'https://1fe-a.akamaihd.net',
-    'https://cdn.jsdelivr.net/',
-  ],
+  connectSrc: ["'self'", 'https://1fe-a.akamaihd.net'],
 };
 
 export const enforcedDefaultCsp: Record<string, CSPPerEnvironment> = {

@@ -214,3 +214,13 @@ jobs:
           slot-name: "Production"
           package: ./
           startup-command: "yarn run start"
+
+      - name: Publish shell types to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # Changesets handles publishing with the publishConfig from each package.json
+          publish: yarn changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

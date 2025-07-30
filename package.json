@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
+    "@changesets/cli": "^2.29.5",
     "@es-exec/esbuild-plugin-start": "^0.0.5",
     "@playwright/test": "^1.51.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
@@ -88,6 +89,10 @@
     "workbox-precaching": "^7.3.0",
     "workbox-strategies": "^7.3.0",
     "zod": "^3.25.36"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://registry.npmjs.org/"
   },
   "packageManager": "yarn@4.9.1"
 }

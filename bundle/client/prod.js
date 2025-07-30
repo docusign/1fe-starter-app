@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const merge = require('webpack-merge');
 const swConfig = require('./sw');
+const shellTypesConfig = require('./shell-types');
 const {
   commonPlugins,
   shouldUseDevelopmentMode,
@@ -104,6 +105,7 @@ const getProdConfig = async (configOverrides) => {
       configOverrides,
     ),
     swConfig,
+    shellTypesConfig,
   ];
 };
 

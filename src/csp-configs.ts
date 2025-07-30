@@ -4,11 +4,13 @@ const commonCsp = {
   scriptSrc: [
     "'self'",
     'https://1fe-a.akamaihd.net',
+    'https://cdn.jsdelivr.net/',
   ],
   styleSrc: ["'unsafe-inline'"],
   connectSrc: [
     "'self'",
     'https://1fe-a.akamaihd.net',
+    'https://cdn.jsdelivr.net/',
   ],
 };
 

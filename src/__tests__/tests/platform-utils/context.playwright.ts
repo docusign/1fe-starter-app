@@ -4,7 +4,7 @@ test('Context functions in @internal/generic-child-widget', async ({
   page,
 }) => {
   // Navigate to the app
-  await page.goto('http://localhost:3001/app1/utils');
+  await page.goto('http://localhost:3001/widget-starter-kit/utils');
 
   const resultElement = page.getByTestId('wsk.context.result.container');
 
@@ -15,5 +15,5 @@ test('Context functions in @internal/generic-child-widget', async ({
   await page.waitForTimeout(100);
 
   const selfContent = JSON.parse((await resultElement.textContent()) || '{}');
-  expect(selfContent.widgetId).toContain('@1fe/starter-kit');
+  expect(selfContent.widgetId).toContain('@1fe/widget-starter-kit');
 });

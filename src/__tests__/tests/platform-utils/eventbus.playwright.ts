@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test';
 const mockedTimestamp = 1609477200000; // Jan 1, 2021
 const expectedEventData = {
   eventInfo: {
-    sender: { id: '@1fe/starter-kit' },
+    sender: { id: '@1fe/widget-starter-kit' },
     timestamp: mockedTimestamp,
   },
   data: { param1: 'Listener is working!' },
 };
 
 test('subscribe + publish + unsubscribe', async ({ page }) => {
-  await page.goto('http://localhost:3001/app1/utils');
+  await page.goto('http://localhost:3001/widget-starter-kit/utils');
 
   await page.click('button[data-qa="utils.eventBus.get.btn"]');
 

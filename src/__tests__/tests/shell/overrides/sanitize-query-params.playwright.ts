@@ -5,7 +5,7 @@ import { setUserAgentForWidgetUrlOverride } from '../../../test-utils/setUserAge
 // const PREPROD_ENVS = ['integration', 'stage', 'integration:1ds', 'stage:1ds'];
 
 test.describe('widget_url_overrides sanitization based on user agent value', () => {
-  const url = `http://localhost:3001/app1?widget_url_overrides={"shouldExist":true}&testQuery=shouldExist`;
+  const url = `http://localhost:3001/widget-starter-kit?widget_url_overrides={"shouldExist":true}&testQuery=shouldExist`;
 
   test('widget_url_overrides should NOT be removed if user agent doesnt include allowed user agent values @e2e', async ({
     page,

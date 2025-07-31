@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
+    "@changesets/cli": "^2.29.5",
     "@es-exec/esbuild-plugin-start": "^0.0.5",
     "@playwright/test": "^1.51.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
@@ -66,8 +67,9 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "@1fe/server": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/server",
-    "@1fe/shell": "git+ssh://git@github.com:docusign/1fe.git#head=main&workspace=@1fe/shell",
+    "@1fe/server": "0.0.1",
+    "@1fe/shell": "0.0.1",
+    "@azure/app-configuration-provider": "^2.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "11.14.0",
     "core-js": "^3.40.0",
@@ -87,6 +89,10 @@
     "workbox-precaching": "^7.3.0",
     "workbox-strategies": "^7.3.0",
     "zod": "^3.25.36"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://registry.npmjs.org/"
   },
   "packageManager": "yarn@4.9.1"
 }

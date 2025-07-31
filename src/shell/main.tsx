@@ -48,7 +48,7 @@ const setup = () => {
       getError: (props?: OneFEErrorComponentProps) => <Error {...props} />,
     },
     routes: {
-      defaultRoute: '/app1',
+      defaultRoute: '/widget-starter-kit',
     },
   });
 };

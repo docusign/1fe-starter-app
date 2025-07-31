@@ -5,7 +5,7 @@ test.describe('session ID cookie', () => {
     page,
     context,
   }) => {
-    await page.goto('http://localhost:3001/app1/utils');
+    await page.goto('http://localhost:3001/widget-starter-kit/utils');
 
     const cookies = await context.cookies();
     const hasSessionIdCookie = cookies.some(

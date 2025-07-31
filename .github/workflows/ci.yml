@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - main, feat/move-ci-to-shared-repo
   pull_request:
     branches:
-      - main, feat/move-ci-to-shared-repo
+      - main
   workflow_dispatch:
     inputs:
       node_version_override:

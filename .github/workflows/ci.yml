@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main, feat/move-ci-to-shared-repo
+      - main
   pull_request:
     branches:
       - main

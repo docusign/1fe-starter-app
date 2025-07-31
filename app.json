@@ -1,0 +1,12 @@
+{
+  "name": "1fe starter app",
+  "description": "A sample 1fe app",
+  "keywords": ["1fe", "microfrontends", "micro", "frontend"],
+  "env": {
+    "BUILD_NUMBER": {
+      "description": "A build number for the 1fe shell bundle. This is used as the folder name to find your shell bundle in your CDN"
+    },
+    "NODE_ENV": "production",
+    "DEPLOY_SOURCE": "heroku"
+  }
+}

@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - main, feat/move-ci-to-shared-repo
   workflow_dispatch:
     inputs:
       node_version_override:
@@ -27,3 +27,4 @@ jobs:
       AZUREAPPSERVICE_TENANTID: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
       AZUREAPPSERVICE_SUBSCRIPTIONID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
       AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+      NPM_TOKEN_READONLY: ${{ secrets.NPM_TOKEN_READONLY_1FE }}

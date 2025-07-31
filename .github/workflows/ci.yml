@@ -17,7 +17,7 @@ on:
 jobs:
   run_ci:
     name: CI/CD
-    uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml@feat/ci-starter-app
+    uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml@main
     with:
       node-version: ${{ github.event.inputs.node_version_override || '22' }}
     secrets:

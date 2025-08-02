@@ -5,9 +5,9 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@1fe/server@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@1fe/server@npm:0.0.1"
+"@1fe/server@npm:0.0.2":
+  version: 0.0.2
+  resolution: "@1fe/server@npm:0.0.2"
   dependencies:
     badge-maker: "npm:^3.3.1"
     browserslist: "npm:^4.25.0"
@@ -23,13 +23,13 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     urlpattern-polyfill: "npm:^10.1.0"
-  checksum: 10c0/bd64537e79ffb2e978d90992cfe14f03b11c31e5d727ff2ad36674c2c5bcb461ef24d4a042163106a9cd5b48435d9dd29b046eecacc9ccaf59585ffac9733805
+  checksum: 10c0/7e60cbadf0556a1fb079077f8cd3b8960dcbbe551086dd6a171274def417625f3ff872b889e338cb7e5e15702176ca85eeacf05c7bfeb9f3a9b4e4fda1e86da8
   languageName: node
   linkType: hard
 
-"@1fe/shell@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@1fe/shell@npm:0.0.1"
+"@1fe/shell@npm:0.0.2":
+  version: 0.0.2
+  resolution: "@1fe/shell@npm:0.0.2"
   dependencies:
     "@babel/core": "npm:^7.27.4"
     "@emotion/react": "npm:^11.14.0"
@@ -48,7 +48,7 @@ __metadata:
     react-router-dom: "npm:6.30.1"
     store2: "npm:^2.14.4"
     systemjs: "npm:^6.15.1"
-  checksum: 10c0/8c24f62caf7fb560cef5cf6cd2c7ac075e0bf8b898a9e7539394abdeac7aa6a97b8cb09fcba9a82ff14759b662a6d63e65d90d20523c853e57dfd5808949f2da
+  checksum: 10c0/f7222639881fea30e6706e9b5497e9eb0b4eb76fca318821ee018ef4679f0f23688faaf827647cadd28cb2d82427ad367231268ce27f6210eb067e4ee729a2b3
   languageName: node
   linkType: hard
 
@@ -56,8 +56,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@1fe/starter-app@workspace:."
   dependencies:
-    "@1fe/server": "npm:0.0.1"
-    "@1fe/shell": "npm:0.0.1"
+    "@1fe/server": "npm:0.0.2"
+    "@1fe/shell": "npm:0.0.2"
     "@azure/app-configuration-provider": "npm:^2.1.0"
     "@babel/core": "npm:^7.26.10"
     "@changesets/cli": "npm:^2.29.5"

@@ -38,7 +38,7 @@ export async function getWidgetVersions(): Promise<WidgetVersions> {
     return Promise.resolve([
       {
         widgetId: '@1fe/playground',
-        version: '0.1.0',
+        version: '0.1.1',
       },
       {
         widgetId: '@1fe/sample-widget',

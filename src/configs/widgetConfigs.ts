@@ -37,8 +37,8 @@ export async function getWidgetVersions(): Promise<WidgetVersions> {
     // The following is a mock implementation to simulate the expected output.
     return Promise.resolve([
       {
-        widgetId: '@1fe/bathtub',
-        version: '1.0.50',
+        widgetId: '@1fe/playground',
+        version: '0.1.1',
       },
       {
         widgetId: '@1fe/sample-widget',

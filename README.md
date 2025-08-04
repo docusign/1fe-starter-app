@@ -145,7 +145,7 @@ Follow the respective platform documentation for Node.js applications. The built
 
 ### Adding New Widgets
 
-1. **Build your widget** using [1fe-widget-starter-kit](https://github.com/docusign/1fe/1fe-widget-starter-kit)
+1. **Build your widget** using [1fe-widget-starter-kit](https://github.com/docusign/1fe-widget-starter-kit)
 2. **Deploy widget assets** to your CDN
 3. **Update widget-versions.json** with your widget's information
 4. **Configure the widget** in your live.json file
@@ -200,10 +200,10 @@ Follow the respective platform documentation for Node.js applications. The built
 
 ## 📖 Documentation
 
-- **[1fe Documentation](https://1-fe.github.io/docs/)** - Complete platform documentation
-- **[Getting Started Guide](https://1-fe.github.io/docs/getting-started/installation)** - Step-by-step setup
-- **[Architecture Overview](https://1-fe.github.io/docs/main-concepts/what-is-1fe)** - How 1fe works
-- **[Deployment Guide](https://1-fe.github.io/docs/getting-started/deploy-poc)** - Production deployment
+- **[1fe Documentation](https://1fe.com/)** - Complete platform documentation
+- **[Getting Started Guide](https://1fe.com/getting-started/installation)** - Step-by-step setup
+- **[Architecture Overview](https://1fe.com/main-concepts/what-is-1fe)** - How 1fe works
+- **[Deployment Guide](https://1fe.com/getting-started/deploy-poc)** - Production deployment
 
 ## 🐛 Troubleshooting
 

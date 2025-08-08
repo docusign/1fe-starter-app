@@ -14,10 +14,21 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+  id-token: write
+
 jobs:
   run_ci:
     name: CI/CD
     uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+      id-token: write
     with:
       node-version: ${{ github.event.inputs.node_version_override || '22' }}
     secrets:
@@ -28,3 +39,4 @@ jobs:
       AZUREAPPSERVICE_SUBSCRIPTIONID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
       AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
       NPM_TOKEN_READONLY: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

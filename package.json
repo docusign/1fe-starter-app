@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "types": "dist/shell/index.d.ts",
   "scripts": {
-    "clean": "npx rimraf dist",
+    "clean": "rimraf dist",
     "dev": "run-s client:dev server:dev",
     "client:dev": "npx webpack --config ./bundle/client/dev.js",
     "server:dev": "node bundle/server/dev.js",

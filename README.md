@@ -201,7 +201,7 @@ Follow the respective platform documentation for Node.js applications. The built
 ## 📖 Documentation
 
 - **[1fe Documentation](https://1fe.com/)** - Complete platform documentation
-- **[Getting Started Guide](https://1fe.com/getting-started/installation)** - Step-by-step setup
+- **[Getting Started Guide](https://1fe.com/start-here)** - Step-by-step setup
 - **[Architecture Overview](https://1fe.com/main-concepts/what-is-1fe)** - How 1fe works
 - **[Deployment Guide](https://1fe.com/getting-started/deploy-poc)** - Production deployment
 
@@ -215,7 +215,7 @@ Follow the respective platform documentation for Node.js applications. The built
 
 ### Getting Help
 
-- Check the [documentation](https://1fe.com/getting-started/installation/)
+- Check the [documentation](https://1fe.com/start-here/)
 - Search [existing issues](https://github.com/docusign/1fe-starter-app/issues)
 - Ask questions in [GitHub Discussions](https://github.com/docusign/1fe-starter-app/discussions)
 
@@ -225,4 +225,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Ready to build your 1fe instance?** Check out our [comprehensive documentation](https://1fe.com/getting-started/installation/) or explore the [live demo](https://demo.1fe.com)!
+**Ready to build your 1fe instance?** Check out our [comprehensive documentation](https://1fe.com/start-here/) or explore the [live demo](https://demo.1fe.com)!

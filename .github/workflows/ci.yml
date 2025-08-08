@@ -23,7 +23,7 @@ permissions:
 jobs:
   run_ci:
     name: CI/CD
-    uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml@cvarma/update-publish
+    uses: docusign/1fe-ci-cd/.github/workflows/ci-starter-app.yml
     permissions:
       contents: write
       pull-requests: write

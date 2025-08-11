@@ -216,8 +216,8 @@ Follow the respective platform documentation for Node.js applications. The built
 ### Getting Help
 
 - Check the [documentation](https://1fe.com/start-here/)
-- Search [existing issues](https://github.com/docusign/1fe-starter-app/issues)
-- Ask questions in [GitHub Discussions](https://github.com/docusign/1fe-starter-app/discussions)
+- Search [existing issues](https://github.com/docusign/1fe/issues)
+- Ask questions in [GitHub Discussions](https://github.com/docusign/1fe/discussions)
 
 ## 📄 License
 

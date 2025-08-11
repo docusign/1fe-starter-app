@@ -1,5 +1,14 @@
 # @1fe/starter-app
 
+## 0.0.3
+
+### Patch Changes
+
+- eddec33: chore: manual patch release to test publishing pipeline
+
+  This changeset triggers a patch version bump to test the complete
+  CI/CD publishing pipeline with all the recent fixes applied.
+
 ## 0.0.2
 
 ### Patch Changes

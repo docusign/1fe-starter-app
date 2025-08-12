@@ -1,0 +1,20 @@
+name: "Setup Environment"
+description: "Install dependencies and other common setup tasks"
+
+inputs:
+  npm_token_readonly:
+    description: "NPM token for read-only access to 1fe packages"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Authenticate to npm
+      shell: bash
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ inputs.npm_token_readonly }}" > ${{ env.NPM_CONFIG_USERCONFIG }}
+        yarn config set npmRegistryServer https://registry.npmjs.org
+        yarn config set npmAuthToken ${{ inputs.npm_token_readonly }}
+
+    - run: yarn install --no-immutable
+      shell: bash

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: my-1fe-app
+    env: node
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start
+    plan: free # Or 'starter', 'standard', etc.
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BUILD_NUMBER
+        sync: false

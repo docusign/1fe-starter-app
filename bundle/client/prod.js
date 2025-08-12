@@ -2,8 +2,13 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { resolve } = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const merge = require('webpack-merge');
-// const swConfig = require('./sw');
-const { commonPlugins, shouldUseDevelopmentMode } = require('./utils');
+const swConfig = require('./sw');
+const shellTypesConfig = require('./shell-types');
+const {
+  commonPlugins,
+  shouldUseDevelopmentMode,
+  getBrowserslistTargets,
+} = require('./utils');
 
 const tsconfigClient = resolve(__dirname, '../../tsconfig.json');
 
@@ -13,16 +18,18 @@ const tsconfigClient = resolve(__dirname, '../../tsconfig.json');
  * @param configOverrides
  */
 const getProdConfig = async (configOverrides) => {
+  // Get dynamic browserslist target
+  const browserslistConfig = await getBrowserslistTargets();
+
+  // Webpack read's browser list from the environment variable BROWSERSLIST
+  process.env.BROWSERSLIST = browserslistConfig.join();
+
   const prodConfig = {
     mode: shouldUseDevelopmentMode ? 'development' : 'production',
     target: 'browserslist',
     devtool: shouldUseDevelopmentMode ? 'source-map' : false,
     entry: {
-      bundle: [
-        // Career hack: MODIFY this and get Fired
-        'core-js',
-        './src/shell/main.tsx',
-      ],
+      bundle: ['core-js', './src/shell/main.tsx'],
     },
     output: {
       path: resolve(__dirname, '../../dist/public'),
@@ -97,7 +104,8 @@ const getProdConfig = async (configOverrides) => {
       prodConfig,
       configOverrides,
     ),
-    // swConfig,
+    swConfig,
+    shellTypesConfig,
   ];
 };
 

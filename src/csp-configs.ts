@@ -7,8 +7,14 @@ const commonCsp = {
 };
 
 export const enforcedDefaultCsp: Record<string, CSPPerEnvironment> = {
-  development: commonCsp,
-  integration: commonCsp,
+  development: {
+    ...commonCsp,
+    scriptSrc: [...commonCsp.scriptSrc, "'unsafe-eval'"], // required for the playground to pass widget props
+  },
+  integration: {
+    ...commonCsp,
+    scriptSrc: [...commonCsp.scriptSrc, "'unsafe-eval'"], // required for the playground to pass widget props
+  },
   production: commonCsp,
 };
 

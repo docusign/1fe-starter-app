@@ -26,7 +26,7 @@ yarn install
 yarn dev
 ```
 
-### 2. Access Your Application by going to <http://localhost:3000>
+### 2. Access Your Application by going to <http://localhost:3001>
 
 ## 📦 Project Structure
 

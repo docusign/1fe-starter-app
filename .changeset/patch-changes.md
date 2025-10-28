@@ -1,5 +1,5 @@
 ---
-"1fe/starter-app": patch
+"@1fe/starter-app": patch
 ---
 
 Test OIDC publication

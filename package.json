@@ -1,6 +1,6 @@
 {
   "name": "@1fe/starter-app",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "types": "dist/shell/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",

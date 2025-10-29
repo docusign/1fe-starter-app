@@ -1,5 +1,11 @@
 # @1fe/starter-app
 
+## 0.0.4
+
+### Patch Changes
+
+- cccb035: Test OIDC publication
+
 ## 0.0.3
 
 ### Patch Changes

@@ -76,9 +76,17 @@ test.describe('Validation of security middleware headers for different routes', 
         return { error: (error as Error).message };
       }
     }, urlToFetch);
+    // Newer Chromium words this as "Connecting to '<url>' violates the
+    // following Content Security Policy directive" instead of "Refused to
+    // connect to '<url>' because it violates...", so match the URL and the
+    // directive text rather than the exact sentence.
     expect(
-      consoleErrors[0].includes(
-        `Refused to connect to '${urlToFetch}' because it violates the following Content Security Policy directive`,
+      consoleErrors.some(
+        (text) =>
+          text.includes(`'${urlToFetch}'`) &&
+          text.includes(
+            'violates the following Content Security Policy directive',
+          ),
       ),
     ).toBeTruthy();
 

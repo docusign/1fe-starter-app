@@ -31,6 +31,7 @@ jobs:
       id-token: write
     with:
       node-version: ${{ github.event.inputs.node_version_override || '22' }}
+      app-name: 1fe-demo-unitydev
     secrets:
       SSH_PRIVATE_1FE: ${{ secrets.SSH_PRIVATE_1FE }}
       AKAMAI_NS_SSH_PRIVATE_KEY: ${{ secrets.AKAMAI_NS_SSH_PRIVATE_KEY }}
